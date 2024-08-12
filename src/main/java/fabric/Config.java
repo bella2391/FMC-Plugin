@@ -29,7 +29,7 @@ public class Config
     {
     	this.fabric = fabric;
     	this.logger = logger;
-    	this.dataDirectory = fabric.getConfigDir();
+    	this.dataDirectory = fabric.getConfigDir().resolve("FMC");
         instance = this;
     }
 
