@@ -1,8 +1,8 @@
-[19:45:24] [main/INFO]: Compatibility level set to JAVA_17
-[19:45:25] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.5).
-SLF4J: A SLF4J service provider failed to instantiate:
-org.slf4j.spi.SLF4JServiceProvider: ch.qos.logback.classic.spi.LogbackServiceProvider Unable to get public no-arg constructor
-[19:45:31] [main/ERROR]: Failed to start the minecraft server
+[19:59:45] [main/INFO]: Compatibility level set to JAVA_17
+[19:59:46] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.5).
+[19:59:51] [main/INFO]: [STDOUT]: Hello, Fabric world!
+[19:59:51] [main/INFO]: YAML configuration loaded successfully.
+[19:59:51] [main/ERROR]: Failed to start the minecraft server
 java.lang.RuntimeException: Could not execute entrypoint stage 'main' due to errors, provided by 'fabricmod'!
         at net.fabricmc.loader.impl.FabricLoaderImpl.lambda$invokeEntrypoints$2(FabricLoaderImpl.java:388) ~[fabric-loader-0.15.11.jar:?]
         at net.fabricmc.loader.impl.util.ExceptionUtil.gatherExceptions(ExceptionUtil.java:33) ~[fabric-loader-0.15.11.jar:?]
@@ -13,24 +13,50 @@ java.lang.RuntimeException: Could not execute entrypoint stage 'main' due to err
         at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74) ~[fabric-loader-0.15.11.jar:?]
         at net.fabricmc.loader.impl.launch.knot.KnotServer.main(KnotServer.java:23) ~[fabric-loader-0.15.11.jar:?]
         at net.fabricmc.loader.impl.launch.server.FabricServerLauncher.main(FabricServerLauncher.java:69) ~[fabric-loader-0.15.11.jar:?]
-Caused by: java.lang.NoClassDefFoundError: org/springframework/context/ApplicationContext
-        at java.lang.Class.forName0(Native Method) ~[?:?]
-        at java.lang.Class.forName(Class.java:467) ~[?:?]
-        at net.fabricmc.loader.impl.util.DefaultLanguageAdapter.create(DefaultLanguageAdapter.java:50) ~[fabric-loader-0.15.11.jar:?]
-        at net.fabricmc.loader.impl.entrypoint.EntrypointStorage$NewEntry.getOrCreate(EntrypointStorage.java:117) ~[fabric-loader-0.15.11.jar:?]
-        at net.fabricmc.loader.impl.entrypoint.EntrypointContainerImpl.getEntrypoint(EntrypointContainerImpl.java:53) ~[fabric-loader-0.15.11.jar:?]
+Caused by: java.lang.NoClassDefFoundError: javax/inject/Provider
+        at java.lang.ClassLoader.defineClass1(Native Method) ~[?:?]
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:1012) ~[?:?]
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150) ~[?:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.defineClassFwd(KnotClassLoader.java:160) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:355) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:218) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119) ~[fabric-loader-0.15.11.jar:?]
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[?:?]
+        at com.google.inject.Scopes.<clinit>(Scopes.java:37) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.internal.InjectorShell$RootModule.configure(InjectorShell.java:340) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.spi.Elements$RecordingBinder.install(Elements.java:409) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.spi.Elements.getElements(Elements.java:108) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.internal.InjectorShell$Builder.build(InjectorShell.java:160) ~[fmc-fabric-mod-1.0.0.jar:?]      
+        at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:107) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:87) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:69) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:59) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at fabric.FabricMod.onInitialize(FabricMod.java:29) ~[fmc-fabric-mod-1.0.0.jar:?]
         at net.fabricmc.loader.impl.FabricLoaderImpl.invokeEntrypoints(FabricLoaderImpl.java:384) ~[fabric-loader-0.15.11.jar:?]
         ... 6 more
-Caused by: java.lang.ClassNotFoundException: org.springframework.context.ApplicationContext
+Caused by: java.lang.ClassNotFoundException: javax.inject.Provider
         at jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[?:?]
         at java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[?:?]
         at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:226) ~[fabric-loader-0.15.11.jar:?]
         at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119) ~[fabric-loader-0.15.11.jar:?]
         at java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[?:?]
-        at java.lang.Class.forName0(Native Method) ~[?:?]
-        at java.lang.Class.forName(Class.java:467) ~[?:?]
-        at net.fabricmc.loader.impl.util.DefaultLanguageAdapter.create(DefaultLanguageAdapter.java:50) ~[fabric-loader-0.15.11.jar:?]
-        at net.fabricmc.loader.impl.entrypoint.EntrypointStorage$NewEntry.getOrCreate(EntrypointStorage.java:117) ~[fabric-loader-0.15.11.jar:?]
-        at net.fabricmc.loader.impl.entrypoint.EntrypointContainerImpl.getEntrypoint(EntrypointContainerImpl.java:53) ~[fabric-loader-0.15.11.jar:?]
+        at java.lang.ClassLoader.defineClass1(Native Method) ~[?:?]
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:1012) ~[?:?]
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150) ~[?:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.defineClassFwd(KnotClassLoader.java:160) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:355) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:218) ~[fabric-loader-0.15.11.jar:?]
+        at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119) ~[fabric-loader-0.15.11.jar:?]
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[?:?]
+        at com.google.inject.Scopes.<clinit>(Scopes.java:37) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.internal.InjectorShell$RootModule.configure(InjectorShell.java:340) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.spi.Elements$RecordingBinder.install(Elements.java:409) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.spi.Elements.getElements(Elements.java:108) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.internal.InjectorShell$Builder.build(InjectorShell.java:160) ~[fmc-fabric-mod-1.0.0.jar:?]      
+        at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:107) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:87) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:69) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at com.google.inject.Guice.createInjector(Guice.java:59) ~[fmc-fabric-mod-1.0.0.jar:?]
+        at fabric.FabricMod.onInitialize(FabricMod.java:29) ~[fmc-fabric-mod-1.0.0.jar:?]
         at net.fabricmc.loader.impl.FabricLoaderImpl.invokeEntrypoints(FabricLoaderImpl.java:384) ~[fabric-loader-0.15.11.jar:?]
         ... 6 more

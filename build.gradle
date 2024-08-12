@@ -19,44 +19,34 @@ dependencies {
     mappings "net.fabricmc:yarn:1.20.1+build.4:v2"
     modImplementation "net.fabricmc:fabric-loader:0.14.21"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.97.1+1.20.4"
-
-    // Spring Boot core dependencies
-    implementation 'org.springframework.boot:spring-boot:3.3.2'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.3.2'
-    implementation 'org.springframework:spring-context:3.3.2'
-
-    // Logging dependencies
-    implementation 'org.springframework.boot:spring-boot-starter-logging:3.3.2'
-    implementation 'org.slf4j:slf4j-api:2.0.0-alpha5'
-    implementation 'ch.qos.logback:logback-classic:1.4.5'
-
-    // YAML processing
+    
+    // Guice dependencies
+    implementation 'com.google.inject:guice:5.1.0'
+    
+    // Other dependencies
     implementation 'org.yaml:snakeyaml:2.0'
-
-    // MySQL connector
     implementation 'mysql:mysql-connector-java:8.0.30'
-
-    // JSON processing
     implementation 'org.json:json:20180813'
+    //implementation 'javax.inject:javax.inject:1'
+    //implementation 'org.aopalliance:aopalliance:1.0'
+    //implementation 'jakarta.inject:jakarta.inject-api:2.0.0'
 }
 
 shadowJar {
     archiveClassifier.set('')
     configurations = [project.configurations.runtimeClasspath]
-
+    
+    // 依存関係のフィルタリング
     dependencies {
-        include(dependency('org.springframework.boot:spring-boot'))
-        include(dependency('org.springframework.boot:spring-boot-autoconfigure'))
-        include(dependency('org.springframework.context:spring-context'))
-        include(dependency('org.springframework.boot:spring-boot-starter-logging'))
-        include(dependency('org.yaml:snakeyaml'))
+        include(dependency('com.google.inject:guice'))
         include(dependency('mysql:mysql-connector-java'))
         include(dependency('org.json:json'))
-        include(dependency('org.slf4j:slf4j-api'))
-        include(dependency('ch.qos.logback:logback-classic'))
+        include(dependency('org.yaml:snakeyaml'))
+        //include(dependency('javax.inject:javax.inject'))
+        //include(dependency('org.aopalliance:aopalliance'))
+        //include(dependency('jakarta.inject:jakarta.inject-api'))
     }
 }
-
 
 tasks.build {
     dependsOn shadowJar
