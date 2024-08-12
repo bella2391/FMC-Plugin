@@ -39,8 +39,6 @@ dependencies {
     implementation 'org.yaml:snakeyaml:2.0'
     implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.json:json:20180813'
-    //implementation 'org.aopalliance:aopalliance:1.0'
-    //implementation 'jakarta.inject:jakarta.inject-api:2.0.0'
 }
 
 shadowJar {
@@ -66,8 +64,6 @@ shadowJar {
         include(dependency('mysql:mysql-connector-java'))
         include(dependency('org.json:json'))
         include(dependency('org.yaml:snakeyaml'))
-        //include(dependency('org.aopalliance:aopalliance'))
-        //include(dependency('jakarta.inject:jakarta.inject-api'))
     }
 }
 
