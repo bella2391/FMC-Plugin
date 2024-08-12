@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
 }
@@ -10,6 +11,7 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.fabricmc.net/' }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.maven.apache.org/maven2' } // Maven Central の URL
 }
 
 dependencies {
@@ -17,14 +19,53 @@ dependencies {
     mappings "net.fabricmc:yarn:1.20.1+build.4:v2"
     modImplementation "net.fabricmc:fabric-loader:0.14.21"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.97.1+1.20.4"
+
+    // Spring Boot core dependencies
+    implementation 'org.springframework.boot:spring-boot:3.3.2'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.3.2'
+    implementation 'org.springframework:spring-context:3.3.2'
+
+    // Logging dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-logging:3.3.2'
+    implementation 'org.slf4j:slf4j-api:2.0.0-alpha5'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+
+    // YAML processing
     implementation 'org.yaml:snakeyaml:2.0'
-    implementation 'com.google.inject:guice:5.1.0'
+
+    // MySQL connector
     implementation 'mysql:mysql-connector-java:8.0.30'
+
+    // JSON processing
     implementation 'org.json:json:20180813'
-    implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
-    implementation 'club.minnced:discord-webhooks:0.8.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
+
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.runtimeClasspath]
+
+    dependencies {
+        include(dependency('org.springframework.boot:spring-boot'))
+        include(dependency('org.springframework.boot:spring-boot-autoconfigure'))
+        include(dependency('org.springframework.context:spring-context'))
+        include(dependency('org.springframework.boot:spring-boot-starter-logging'))
+        include(dependency('org.yaml:snakeyaml'))
+        include(dependency('mysql:mysql-connector-java'))
+        include(dependency('org.json:json'))
+        include(dependency('org.slf4j:slf4j-api'))
+        include(dependency('ch.qos.logback:logback-classic'))
+    }
+}
+
+
+tasks.build {
+    dependsOn shadowJar
+}
+
+// forgeでは必要
+/*reobf {
+    shadowJar {}
+}*/
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
