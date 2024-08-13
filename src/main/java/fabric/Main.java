@@ -45,8 +45,7 @@ public class Main implements ModInitializer
             this.config = getInjector().getInstance(Config.class);
             logger.info(config.getString("MySQL.Host"));
             
-            server.sendMessage(Text.literal("テスト").formatted(Formatting.LIGHT_PURPLE));
-            //getInjector().getInstance(AutoShutdown.class).startCheckForPlayers();
+            getInjector().getInstance(AutoShutdown.class).startCheckForPlayers();
         });
     }
     
