@@ -22,6 +22,7 @@ public class Main implements ModInitializer
 	private Logger logger;
 	private Config config;
 	private MinecraftServer server;
+	private AutoShutdown autoShutdown = null;
 	
 	public Main()
 	{
@@ -41,12 +42,24 @@ public class Main implements ModInitializer
             
             System.out.println("Hello, Fabric world!");
             
-            
             this.config = getInjector().getInstance(Config.class);
             logger.info(config.getString("MySQL.Host"));
             
-            getInjector().getInstance(AutoShutdown.class).startCheckForPlayers();
+            this.autoShutdown = getInjector().getInstance(AutoShutdown.class);
+            autoShutdown.start();
         });
+        
+        // ServerLifecycleEvents.SERVER_STOPPING イベントでタスクを停止
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> 
+        {
+        	server.sendMessage(Text.literal("サーバーが停止中です...").formatted(Formatting.RED));
+        	
+        	if(Objects.nonNull(autoShutdown))
+        	{
+        		autoShutdown.stop();
+        	}
+        });
+        
     }
     
     public static synchronized Injector getInjector()
