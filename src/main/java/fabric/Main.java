@@ -23,6 +23,7 @@ public class Main implements ModInitializer
 	private Config config;
 	private MinecraftServer server;
 	private AutoShutdown autoShutdown = null;
+	private ServerStatus status;
 	
 	public Main()
 	{
@@ -47,6 +48,9 @@ public class Main implements ModInitializer
             
             this.autoShutdown = getInjector().getInstance(AutoShutdown.class);
             autoShutdown.start();
+            
+            this.status = getInjector().getInstance(ServerStatus.class);
+            status.doServerOnline();
         });
         
         // ServerLifecycleEvents.SERVER_STOPPING イベントでタスクを停止
@@ -58,6 +62,8 @@ public class Main implements ModInitializer
         	{
         		autoShutdown.stop();
         	}
+        	
+        	status.doServerOffline();
         });
         
     }

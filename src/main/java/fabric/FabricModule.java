@@ -44,5 +44,6 @@ public class FabricModule extends AbstractModule
 		bind(Logger.class).toInstance(logger);
 		bind(MinecraftServer.class).toInstance(server);
 		bind(AutoShutdown.class);
+		bind(SocketSwitch.class);
     }
 }
