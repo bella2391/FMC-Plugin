@@ -16,13 +16,18 @@ public class AutoShutdown
 {
 	private final FabricLoader fabric;
     private final MinecraftServer server;
+    private final Config config;
     private AutoShutdownTask task = null;
     
     @Inject
-    public AutoShutdown(FabricLoader fabric, MinecraftServer server)
+    public AutoShutdown
+    (
+    	FabricLoader fabric, MinecraftServer server, Config config
+    )
     {
     	this.fabric = fabric;
     	this.server = server;
+    	this.config = config;
     }
     
     public void startCheckForPlayers() 
@@ -43,7 +48,7 @@ public class AutoShutdown
 
     private boolean isAutoStopEnabled() {
         // Auto-Stopが有効かどうかをチェックするメソッド
-        return true; // サーバーの設定から値を取得するように調整してください
+        return config.getBoolean("AutoStop.Mode", false); // サーバーの設定から値を取得するように調整してください
     }
 
     private long getNoPlayerThreshold() {

@@ -19,5 +19,5 @@ MCVC:
     EXE_Path: ""
 
 AutoStop:
-    Mode: true
+    Mode: false
     Interval: 3
