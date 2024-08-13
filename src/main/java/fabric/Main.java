@@ -12,6 +12,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public class Main implements ModInitializer
 {
@@ -21,15 +23,20 @@ public class Main implements ModInitializer
 	private Config config;
 	private MinecraftServer server;
 	
+	public Main()
+	{
+		this.fabric = FabricLoader.getInstance();
+		this.logger = LoggerFactory.getLogger("FMC");
+	}
+	
     @Override
     public void onInitialize()
     {
-    	this.fabric = FabricLoader.getInstance();
-		this.logger = LoggerFactory.getLogger("FMC");
     	// サーバーが起動したときに呼ばれるイベントフック
         ServerLifecycleEvents.SERVER_STARTED.register(server -> 
         {
             this.server = server;
+            
             injector = Guice.createInjector(new FabricModule(fabric, logger, server));
             
             System.out.println("Hello, Fabric world!");
@@ -38,11 +45,12 @@ public class Main implements ModInitializer
             this.config = getInjector().getInstance(Config.class);
             logger.info(config.getString("MySQL.Host"));
             
-            getInjector().getInstance(AutoShutdown.class).startCheckForPlayers();
+            server.sendMessage(Text.literal("テスト").formatted(Formatting.LIGHT_PURPLE));
+            //getInjector().getInstance(AutoShutdown.class).startCheckForPlayers();
         });
     }
     
-    public static Injector getInjector()
+    public static synchronized Injector getInjector()
     {
     	if(Objects.isNull(injector))
     	{
