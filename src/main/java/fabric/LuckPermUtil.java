@@ -36,7 +36,13 @@ public class LuckPermUtil
         UserManager userManager = luckperm.getUserManager();
         User user = userManager.getUser(source.getPlayer().getUuid());
         
-        if (Objects.nonNull(user)) 
+        if(Objects.isNull(user))
+        {
+        	source.sendMessage(Text.literal("Error: User not found in LuckPerms."));
+            return false;
+        }
+        
+        /*if (Objects.nonNull(user)) 
         {
             for (Node node : user.getNodes()) 
             {
@@ -45,8 +51,9 @@ public class LuckPermUtil
                     return true;
                 }
             }
-        }
+        }*/
         
-        return false;
+        // 権限チェック
+        return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
     }
 }
