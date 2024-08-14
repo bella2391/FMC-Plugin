@@ -7,11 +7,19 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import fabric_command.FMCCommand;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -24,6 +32,8 @@ public class Main implements ModInitializer
 	private MinecraftServer server;
 	private AutoShutdown autoShutdown = null;
 	private ServerStatus status;
+	private FMCCommand fmcCommand;
+	private LuckPerms luckperm;
 	
 	public Main()
 	{
@@ -34,12 +44,48 @@ public class Main implements ModInitializer
     @Override
     public void onInitialize()
     {
+    	CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> 
+        {
+            this.fmcCommand = new FMCCommand();
+            
+            dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("fmc")
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("reload")
+                            .executes(context -> fmcCommand.execute(context, "reload")))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("potion")
+                            .then(CommandManager.argument("effect", StringArgumentType.string())
+                                    .executes(context -> fmcCommand.execute(context, "potion"))))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("medic")
+                            .executes(context -> fmcCommand.execute(context, "medic")))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("fly")
+                            .executes(context -> fmcCommand.execute(context, "fly")))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("test")
+                            .then(CommandManager.argument("arg", StringArgumentType.string())
+                                    .executes(context -> fmcCommand.execute(context, "test"))))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("fv")
+                            .executes(context -> fmcCommand.execute(context, "fv")))
+                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("mcvc")
+                            .executes(context -> fmcCommand.execute(context, "mcvc")))
+            );
+            
+            System.out.println("Command registered: ");
+        });
+    	
     	// サーバーが起動したときに呼ばれるイベントフック
         ServerLifecycleEvents.SERVER_STARTED.register(server -> 
         {
             this.server = server;
             
-            injector = Guice.createInjector(new FabricModule(fabric, logger, server));
+            try 
+            {
+                this.luckperm = LuckPermsProvider.get();
+            } 
+            catch (IllegalStateException e) 
+            {
+                System.err.println("LuckPermsが見つかりませんでした。");
+                return;
+            }
+            
+            injector = Guice.createInjector(new FabricModule(fabric, logger, server, luckperm));
             
             System.out.println("Hello, Fabric world!");
             

@@ -22,7 +22,7 @@ public class ServerStatus
 	private final String serverName;
 	
 	@Inject
-	public ServerStatus(FabricLoader fabric, Logger logger,SocketSwitch ssw, Database db)
+	public ServerStatus(FabricLoader fabric, Logger logger, SocketSwitch ssw, Database db)
 	{
 		this.fabric = fabric;
 		this.logger = logger;
@@ -35,12 +35,13 @@ public class ServerStatus
 	{
 		try
 		{
+			ssw.startSocketClient(serverName+"サーバーが起動しました。");
+			
 			conn = db.getConnection();
 			
 			if(Objects.nonNull(conn) && Objects.nonNull(serverName))
 			{
 				// サーバーをオンラインに
-				ssw.startSocketClient(serverName+"サーバーが起動しました。");
 				logger.info(serverName+"サーバーが起動しました。");
 				
 				String sql = "UPDATE mine_status SET online=? WHERE name=?;";

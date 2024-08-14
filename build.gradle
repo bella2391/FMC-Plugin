@@ -53,6 +53,8 @@ dependencies {
     implementation 'org.yaml:snakeyaml:2.0'
     implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.json:json:20180813'
+    // LuckPerm
+    implementation "net.luckperms:api:5.4"
     
     // Including by Loom Plugin
     include 'com.google.inject:guice:5.1.0'
