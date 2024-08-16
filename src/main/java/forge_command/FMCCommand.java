@@ -1,0 +1,101 @@
+package forge_command;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.slf4j.Logger;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
+import forge.LuckPermUtil;
+import forge.Main;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
+
+public class FMCCommand {
+
+    private static final List<String> subcommands = Arrays.asList("reload", "test", "fv");
+    private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
+    private final Logger logger;
+
+    public FMCCommand(Logger logger)
+    {
+        this.logger = logger;
+    }
+
+    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher)
+    {
+        logger.info("Registering fmc commands...");
+
+        dispatcher.register(Commands.literal("fmc")
+            .then(Commands.literal("fv")
+                .then(Commands.argument("player", StringArgumentType.string())
+                    .suggests((context, builder) -> 
+                        SharedSuggestionProvider.suggest(
+                            context.getSource().getServer().getPlayerList().getPlayers().stream()
+                                .map(player -> player.getGameProfile().getName()),
+                            builder))
+                    .then(Commands.argument("proxy_cmds", StringArgumentType.greedyString())
+                        .executes(context -> execute(context, "fv")))))
+            .then(Commands.literal("reload")
+                .executes(context -> execute(context, "reload")))
+            .then(Commands.literal("test")
+                .then(Commands.argument("arg", StringArgumentType.string())
+                    .suggests((context, builder) -> 
+                        SharedSuggestionProvider.suggest(
+                            context.getSource().getServer().getPlayerList().getPlayers().stream()
+                                .map(player -> player.getGameProfile().getName()),
+                            builder))
+                    .then(Commands.argument("option", StringArgumentType.string())
+                        .suggests((context, builder) -> 
+                            SharedSuggestionProvider.suggest(customList, builder))
+                        .executes(context -> execute(context, "test"))))
+        ));
+    }
+
+    public int execute(CommandContext<CommandSourceStack> context, String subcommand) throws CommandSyntaxException 
+    {
+        CommandSourceStack source = context.getSource();
+
+        try 
+        {
+            if (!Main.getInjector().getInstance(LuckPermUtil.class).hasPermission(source, "fmc." + subcommand)) 
+            {
+                source.sendFailure(Component.literal("Access denied"));
+                return 1;
+            }
+
+            switch (subcommand) 
+            {
+                case "reload":
+                	Main.getInjector().getInstance(ReloadConfig.class).execute(context);
+                    break;
+
+                case "test":
+                    source.sendSuccess(() -> Component.literal("TestCommandExecuted"), false);
+                    break;
+
+                case "fv":
+                    Main.getInjector().getInstance(CommandForward.class).execute(context);
+                    break;
+
+                default:
+                    source.sendFailure(Component.literal("Unknown command"));
+                    return 1;
+            }
+
+            return 0; // 正常に実行された場合は 0 を返す
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace(); // コンソールに例外を出力してデバッグ
+            source.sendFailure(Component.literal("An error occurred while executing the command"));
+            return 1; // 例外が発生した場合は 1 を返す
+        }
+    }
+}
