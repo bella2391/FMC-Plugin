@@ -42,6 +42,7 @@ public class ServerModEvent
     public static void onRegisterCommands(RegisterCommandsEvent e) 
     {
     	CommandDispatcher<CommandSourceStack> dispatcher = e.getDispatcher();
+    	//CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
         new FMCCommand(logger).registerCommand(dispatcher);
         logger.info("FMC command registered.");
     }

@@ -28,8 +28,7 @@ public class FMCCommand {
         this.logger = logger;
     }
 
-    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher)
-    {
+    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         logger.info("Registering fmc commands...");
 
         dispatcher.register(Commands.literal("fmc")
