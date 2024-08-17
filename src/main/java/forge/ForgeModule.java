@@ -37,5 +37,6 @@ public class ForgeModule extends AbstractModule
 		bind(ServerStatus.class);
 		bind(Rcon.class);
 		bind(MinecraftServer.class).toInstance(server);
+		bind(AutoShutdown.class);
     }
 }

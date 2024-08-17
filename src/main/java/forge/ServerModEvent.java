@@ -25,6 +25,7 @@ public class ServerModEvent
 	private static Config config;
 	private static ServerStatus status;
 	private static Rcon rcon;
+	private static AutoShutdown autoshutdown;
 	
 	@SubscribeEvent
     public static void onServerStarting(ServerStartingEvent e)
@@ -44,11 +45,16 @@ public class ServerModEvent
 		config = Main.getConfig();
 		Main.injector = Guice.createInjector(new ForgeModule(logger, luckperm, config, server));
 		
+		
+		
 		status = Main.getInjector().getInstance(ServerStatus.class);
 		status.doServerOnline();
 		
 		rcon = Main.getInjector().getInstance(Rcon.class);
 		rcon.startMCVC();
+		
+		autoshutdown = Main.getInjector().getInstance(AutoShutdown.class);
+		autoshutdown.start();
     }
 	
 	@SubscribeEvent
@@ -57,6 +63,8 @@ public class ServerModEvent
 		status.doServerOffline();
 		
 		rcon.stopMCVC();
+		
+		autoshutdown.stop();
 	}
 	
     @SubscribeEvent
