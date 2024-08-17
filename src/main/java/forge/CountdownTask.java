@@ -1,6 +1,13 @@
 package forge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.server.MinecraftServer;
 
 public class CountdownTask implements Runnable 
@@ -53,7 +60,18 @@ public class CountdownTask implements Runnable
                     // シャットダウンフラグを設定し、サーバーを停止
                     isShutdown.set(true);
                     System.out.println("サーバーを停止します。");
-                    server.stopServer();
+                    //server.stopServer();
+                    // コマンドを実行するためのコマンドディスパッチャーを取得
+                    CommandDispatcher<CommandSourceStack> dispatcher = server.getCommands().getDispatcher();
+                    CommandSourceStack source = server.createCommandSourceStack();
+                    try
+                    {
+						dispatcher.execute("stop", source);
+					}
+                    catch (CommandSyntaxException e) 
+                    {
+						e.printStackTrace();
+					}
                 }
             } 
             else 
