@@ -9,21 +9,28 @@ import forge_command.FMCCommand;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Main.MODID)
 public class ServerModEvent 
 {
+	private static MinecraftServer server;
 	private static LuckPerms luckperm;
 	private static final Logger logger = Main.logger;
 	private static Config config;
+	private static ServerStatus status;
+	private static Rcon rcon;
 	
 	@SubscribeEvent
     public static void onServerStarting(ServerStartingEvent e)
 	{
+		server = e.getServer();
+		
 		try 
         {
             luckperm = LuckPermsProvider.get();
@@ -35,9 +42,23 @@ public class ServerModEvent
         }
 		
 		config = Main.getConfig();
-		Main.injector = Guice.createInjector(new ForgeModule(logger, luckperm, config));
+		Main.injector = Guice.createInjector(new ForgeModule(logger, luckperm, config, server));
+		
+		status = Main.getInjector().getInstance(ServerStatus.class);
+		status.doServerOnline();
+		
+		rcon = Main.getInjector().getInstance(Rcon.class);
+		rcon.startMCVC();
     }
-
+	
+	@SubscribeEvent
+	public static void onServerStopping(ServerStoppingEvent e)
+	{
+		status.doServerOffline();
+		
+		rcon.stopMCVC();
+	}
+	
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent e) 
     {

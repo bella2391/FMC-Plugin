@@ -28,11 +28,7 @@ public class Rcon
 	private final AtomicBoolean mcvcFlag;
 	
 	@Inject
-	public Rcon
-	(
-		Logger logger, Config config,
-		MinecraftServer server
-	)
+	public Rcon(Logger logger, Config config, MinecraftServer server)
 	{
 		this.logger = logger;
 		this.config = config;

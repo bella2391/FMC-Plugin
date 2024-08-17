@@ -1,0 +1,3 @@
+fmc reload
+[18:29:24] [Server thread/INFO] [minecraft/MinecraftServer]: Error: Command must be executed by a player.
+[18:29:24] [Server thread/INFO] [minecraft/MinecraftServer]: Access denied

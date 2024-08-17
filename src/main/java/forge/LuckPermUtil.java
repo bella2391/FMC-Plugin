@@ -24,7 +24,9 @@ public class LuckPermUtil
     // 権限チェックメソッド
     public boolean hasPermission(CommandSourceStack source, String permission) 
     {
-        if (Objects.isNull(source.getEntity()) || !(source.getEntity() instanceof ServerPlayer)) 
+    	if(Objects.isNull(source.getEntity())) return true;
+    	
+        if (!(source.getEntity() instanceof ServerPlayer)) 
         {
             source.sendFailure(Component.literal("Error: Command must be executed by a player."));
             return false;
