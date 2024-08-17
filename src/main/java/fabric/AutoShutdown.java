@@ -10,7 +10,8 @@ import com.google.inject.Inject;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 
-public class AutoShutdown {
+public class AutoShutdown 
+{
     private final FabricLoader fabric;
     private final MinecraftServer server;
     private final Config config;
