@@ -88,25 +88,19 @@ dependencies {
 
 shadowJar {
     archiveClassifier.set('all')
-    //configurations = [project.configurations.runtimeClasspath]
     configurations = [project.configurations.runtimeClasspath, project.configurations.compileClasspath]
-    
-    // 依存関係のフィルタリング
     dependencies {
-        // Guice dependencies
+        // 必要な依存関係のみを含める
         include(dependency('com.google.inject:guice'))
-        // Dependencies of Guice
         include(dependency('javax.inject:javax.inject'))
         include(dependency('aopalliance:aopalliance'))
         include(dependency('biz.aQute:bnd'))
         include(dependency('com.google.errorprone:error_prone_annotations'))
-        //include(dependency('com.google.guava:guava'))
         include(dependency('com.google.truth.extensions:truth-java8-extension'))
         include(dependency('com.google.truth:truth'))
         include(dependency('jakarta.inject:jakarta.inject-api'))
         include(dependency('jakarta.inject:jakarta.inject-tck'))
         include(dependency('junit:junit'))
-        // Other dependencies
         include(dependency('mysql:mysql-connector-java'))
         include(dependency('org.json:json'))
         include(dependency('org.yaml:snakeyaml'))
@@ -128,7 +122,6 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
-// Reobfuscate the shadow jar
 reobf {
     shadowJar {
         // Reobfuscate the shadowed jar
