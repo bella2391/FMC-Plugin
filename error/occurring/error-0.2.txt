@@ -1,0 +1,16 @@
+java.lang.IllegalStateException: Failed to initialize server
+        at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:635) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at java.lang.Thread.run(Thread.java:842) ~[?:?] {}
+[16:52:21] [Server thread/FATAL] [ne.mi.co.ForgeMod/]: Preparing crash report with UUID 7ed869c6-28ed-4d65-a17c-c03b93a9817a
+[16:52:21] [Server thread/ERROR] [minecraft/MinecraftServer]: This crash report has been saved to: C:\Users\minecraft\V1\Forge\.\crash-reports\crash-2024-08-17_16.52.21-server.txt
+[16:52:21] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[16:52:21] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[16:52:21] [Server thread/ERROR] [minecraft/MinecraftServer]: Exception stopping the server
+java.lang.NullPointerException: Cannot invoke "net.minecraft.server.level.ServerLevel.m_6857_()" because "serverlevel2" is null
+        at net.minecraft.server.MinecraftServer.m_129885_(MinecraftServer.java:513) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at net.minecraft.server.MinecraftServer.m_7041_(MinecraftServer.java:584) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at net.minecraft.server.dedicated.DedicatedServer.m_7041_(DedicatedServer.java:510) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:689) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
+        at java.lang.Thread.run(Thread.java:842) ~[?:?] {}

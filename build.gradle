@@ -110,18 +110,8 @@ shadowJar {
         include(dependency('mysql:mysql-connector-java'))
         include(dependency('org.json:json'))
         include(dependency('org.yaml:snakeyaml'))
-        //include(dependency('net.minecraft:minecraft'))
     }
 }
-
-/*tasks.named('jar') {
-    dependsOn tasks.named('shadowJar')
-}*/
-
-/*shadowJar {
-    archiveClassifier.set('all')
-    configurations = [project.configurations.implementation]
-}*/
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
@@ -138,6 +128,13 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
+// Reobfuscate the shadow jar
+reobf {
+    shadowJar {
+        // Reobfuscate the shadowed jar
+    }
+}
+
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
@@ -151,8 +148,9 @@ tasks.named('jar', Jar).configure {
         ])
     }
 
-    //finalizedBy 'reobfJar'
-    finalizedBy tasks.named('shadowJar')
+    finalizedBy 'reobfJar'
+    //finalizedBy tasks.named('shadowJar')
+    //finalizedBy tasks.named('reobfShadowJar')
 }
 
 publishing {
