@@ -1,8 +1,8 @@
 package forge;
 
 import com.google.inject.Injector;
-
 import com.mojang.logging.LogUtils;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -39,9 +39,10 @@ public class Main
         //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
+    private void commonSetup(final FMLCommonSetupEvent e)
     {
-        logger.info("HELLO FROM COMMON SETUP");
+    	logger.info("THIS IS COMMON SETUP.");
+        
         this.configDir = FMLPaths.CONFIGDIR.get();  // これが config ディレクトリの Path
         gameDir = configDir.getParent();
         Path modConfigDir = configDir.resolve(MODID); // MODID に基づくディレクトリ

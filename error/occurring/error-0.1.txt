@@ -1,35 +1,37 @@
-2024-08-16 18:58:43,644 main WARN Advanced terminal features are not available in this environment
-[18:58:43] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserver, --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --nogui]    
-[18:58:43] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 21.0.3 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
-[18:58:43] [main/INFO] [ne.mi.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserver
-[18:58:43] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/org/spongepowered/mixin/0.8.5/mixin-0.8.5.jar%2365!/ Service=ModLauncher Env=SERVER
-[18:58:44] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\fmlcore\1.20.1-47.3.0\fmlcore-1.20.1-47.3.0.jar is missing mods.toml file
-[18:58:44] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\javafmllanguage\1.20.1-47.3.0\javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[18:58:44] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\lowcodelanguage\1.20.1-47.3.0\lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[18:58:44] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\mclanguage\1.20.1-47.3.0\mclanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[18:58:44] [main/INFO] [ne.mi.fm.lo.mo.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[18:58:45] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
-[18:58:45] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserver' with arguments [--nogui]  
-[18:58:48] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
-[18:58:48] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
-[18:58:49] [modloading-worker-0/INFO] [fo.Main/]: HELLO FROM COMMON SETUP
-[18:58:49] [modloading-worker-0/INFO] [fo.Main/]: YAML configuration loaded successfully.
-[18:58:49] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
-[18:58:49] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 47.3.0 Target: null
-[18:58:50] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
-[18:58:50] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/assets/.mcassetsroot' uses unexpected schema
-[18:58:50] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/data/.mcassetsroot' uses unexpected schema
-[18:58:51] [main/INFO] [fo.Main/]: Registering fmc commands...
-[18:58:51] [main/ERROR] [ne.mi.ev.EventBus/EVENTBUS]: Exception caught during firing event: 'com.mojang.brigadier.builder.LiteralArgumentBuilder net.minecraft.commands.Commands.literal(java.lang.String)'
+Active code page: 65001
+switched to java17
+2024-08-17 14:15:20,641 main WARN Advanced terminal features are not available in this environment
+[14:15:20] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserver, --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --nogui]
+[14:15:20] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.11 by Oracle Corporation; OS Windows 11 arch amd64 version 10.0
+[14:15:20] [main/INFO] [ne.mi.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserver
+[14:15:20] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/org/spongepowered/mixin/0.8.5/mixin-0.8.5.jar%2365!/ Service=ModLauncher Env=SERVER
+[14:15:21] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\fmlcore\1.20.1-47.3.0\fmlcore-1.20.1-47.3.0.jar is missing mods.toml file
+[14:15:21] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\javafmllanguage\1.20.1-47.3.0\javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[14:15:21] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\lowcodelanguage\1.20.1-47.3.0\lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[14:15:21] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge_1_20_1\libraries\net\minecraftforge\mclanguage\1.20.1-47.3.0\mclanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[14:15:21] [main/INFO] [ne.mi.fm.lo.mo.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[14:15:22] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[14:15:22] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserver' with arguments [--nogui]  
+[14:15:25] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
+[14:15:25] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
+[14:15:26] [modloading-worker-0/INFO] [fo.Main/]: THIS IS COMMON SETUP.
+[14:15:26] [modloading-worker-0/INFO] [fo.Main/]: YAML configuration loaded successfully.
+[14:15:26] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[14:15:26] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 47.3.0 Target: null
+[14:15:27] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[14:15:27] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/assets/.mcassetsroot' uses unexpected schema
+[14:15:27] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge_1_20_1/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/data/.mcassetsroot' uses unexpected schema
+[14:15:28] [main/INFO] [fo.Main/]: Registering fmc commands...
+[14:15:28] [main/ERROR] [ne.mi.ev.EventBus/EVENTBUS]: Exception caught during firing event: 'com.mojang.brigadier.builder.LiteralArgumentBuilder net.minecraft.commands.Commands.literal(java.lang.String)'
         Index: 1
         Listeners:
                 0: NORMAL
                 1: ASM: class forge.ServerModEvent onRegisterCommands(Lnet/minecraftforge/event/RegisterCommandsEvent;)V     
-                2: ASM: net.minecraftforge.common.ForgeInternalHandler@6072c209 onCommandsRegister(Lnet/minecraftforge/event/RegisterCommandsEvent;)V
-                3: net.minecraftforge.eventbus.EventBus$$Lambda/0x0000018e01a44ed8@1d2f28a8
+                2: ASM: net.minecraftforge.common.ForgeInternalHandler@4335313d onCommandsRegister(Lnet/minecraftforge/event/RegisterCommandsEvent;)V
+                3: net.minecraftforge.eventbus.EventBus$$Lambda$4105/0x0000011d54a3c000@55f79f16
 java.lang.NoSuchMethodError: 'com.mojang.brigadier.builder.LiteralArgumentBuilder net.minecraft.commands.Commands.literal(java.lang.String)'
-        at TRANSFORMER/fmc@1.0.0/forge_command.FMCCommand.registerCommand(FMCCommand.java:35)
-        at TRANSFORMER/fmc@1.0.0/forge.ServerModEvent.onRegisterCommands(ServerModEvent.java:45)
+        at TRANSFORMER/fmc@1.0.0/forge_command.FMCCommand.registerCommand(FMCCommand.java:34)
+        at TRANSFORMER/fmc@1.0.0/forge.ServerModEvent.onRegisterCommands(ServerModEvent.java:46)
         at TRANSFORMER/fmc@1.0.0/forge.__ServerModEvent_onRegisterCommands_RegisterCommandsEvent.invoke(.dynamic)
         at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:73)
         at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.EventBus.post(EventBus.java:315)
@@ -43,8 +45,10 @@ java.lang.NoSuchMethodError: 'com.mojang.brigadier.builder.LiteralArgumentBuilde
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.Util.m_214652_(Util.java:777)
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.Util.m_214679_(Util.java:772)
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.Main.main(Main.java:166)
-        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:568)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonLaunchHandler.serverService(CommonLaunchHandler.java:103)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonServerLaunchHandler.lambda$makeService$0(CommonServerLaunchHandler.java:27)
@@ -67,16 +71,18 @@ Exception in thread "main" java.lang.RuntimeException: java.lang.reflect.Invocat
         at MC-BOOTSTRAP/cpw.mods.modlauncher@10.0.9/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23)
         at cpw.mods.bootstraplauncher@1.1.2/cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141)    
 Caused by: java.lang.reflect.InvocationTargetException
-        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:118)
-        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:568)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonLaunchHandler.serverService(CommonLaunchHandler.java:103)
         at MC-BOOTSTRAP/fmlloader@1.20.1-47.3.0/net.minecraftforge.fml.loading.targets.CommonServerLaunchHandler.lambda$makeService$0(CommonServerLaunchHandler.java:27)
         at MC-BOOTSTRAP/cpw.mods.modlauncher@10.0.9/cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30)
         ... 7 more
 Caused by: java.lang.NoSuchMethodError: 'com.mojang.brigadier.builder.LiteralArgumentBuilder net.minecraft.commands.Commands.literal(java.lang.String)'
-        at TRANSFORMER/fmc@1.0.0/forge_command.FMCCommand.registerCommand(FMCCommand.java:35)
-        at TRANSFORMER/fmc@1.0.0/forge.ServerModEvent.onRegisterCommands(ServerModEvent.java:45)
+        at TRANSFORMER/fmc@1.0.0/forge_command.FMCCommand.registerCommand(FMCCommand.java:34)
+        at TRANSFORMER/fmc@1.0.0/forge.ServerModEvent.onRegisterCommands(ServerModEvent.java:46)
         at TRANSFORMER/fmc@1.0.0/forge.__ServerModEvent_onRegisterCommands_RegisterCommandsEvent.invoke(.dynamic)
         at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:73)
         at MC-BOOTSTRAP/net.minecraftforge.eventbus/net.minecraftforge.eventbus.EventBus.post(EventBus.java:315)
@@ -90,5 +96,4 @@ Caused by: java.lang.NoSuchMethodError: 'com.mojang.brigadier.builder.LiteralArg
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.Util.m_214652_(Util.java:777)
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.Util.m_214679_(Util.java:772)
         at TRANSFORMER/minecraft@1.20.1/net.minecraft.server.Main.main(Main.java:166)
-        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-        ... 12 more
+        ... 15 more
