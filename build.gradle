@@ -142,8 +142,6 @@ tasks.named('jar', Jar).configure {
     }
 
     finalizedBy 'reobfJar'
-    //finalizedBy tasks.named('shadowJar')
-    //finalizedBy tasks.named('reobfShadowJar')
 }
 
 publishing {

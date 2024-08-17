@@ -1,16 +1,28 @@
+Active code page: 65001switched to java172024-08-17 18:13:16,572 main WARN Advanced terminal features are not available in this environment[18:13:16] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserver, --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --nogui][18:13:16] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.11 by Oracle Corporation; OS Windows 11 arch amd64 version 10.0[18:13:16] [main/INFO] [ne.mi.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserver[18:13:16] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/minecraft/V1/Forge/libraries/org/spongepowered/mixin/0.8.5/mixin-0.8.5.jar%2365!/ Service=ModLauncher Env=SERVER[18:13:17] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge\libraries\net\minecraftforge\fmlcore\1.20.1-47.3.0\fmlcore-1.20.1-47.3.0.jar is missing mods.toml file[18:13:17] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge\libraries\net\minecraftforge\javafmllanguage\1.20.1-47.3.0\javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file[18:13:17] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge\libraries\net\minecraftforge\lowcodelanguage\1.20.1-47.3.0\lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file[18:13:17] [main/WARN] [ne.mi.fm.lo.mo.ModFileParser/LOADING]: Mod file C:\Users\minecraft\V1\Forge\libraries\net\minecraftforge\mclanguage\1.20.1-47.3.0\mclanguage-1.20.1-47.3.0.jar is missing mods.toml file[18:13:17] [main/INFO] [ne.mi.fm.lo.mo.JarInJarDependencyLocator/]: No dependencies to load found. Skipping![18:13:18] [main/INFO] [mixin/]: Compatibility level set to JAVA_17[18:13:18] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserver' with arguments [--nogui]
+[18:13:22] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
+[18:13:22] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
+[18:13:22] [modloading-worker-0/INFO] [fo.Main/]: THIS IS COMMON SETUP.
+[18:13:22] [modloading-worker-0/INFO] [fo.Main/]: YAML configuration loaded successfully.
+[18:13:22] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[18:13:23] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 47.3.0 Target: null
+[18:13:23] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[18:13:23] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/assets/.mcassetsroot' uses unexpected schema
+[18:13:23] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/C:/Users/minecraft/V1/Forge/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar%23107!/data/.mcassetsroot' uses unexpected schema
+[18:13:24] [main/INFO] [fo.Main/]: Registering fmc commands...
+[18:13:24] [main/INFO] [fo.Main/]: FMC command registered.
+[18:13:24] [main/INFO] [minecraft/RecipeManager]: Loaded 7 recipes
+[18:13:25] [main/INFO] [minecraft/AdvancementList]: Loaded 1271 advancements
+[18:13:25] [Server thread/INFO] [minecraft/DedicatedServer]: Starting minecraft server version 1.20.1
+[18:13:25] [Server thread/INFO] [minecraft/DedicatedServer]: Loading properties
+[18:13:25] [Server thread/INFO] [minecraft/DedicatedServer]: Default game type: SURVIVAL
+[18:13:25] [Server thread/INFO] [minecraft/MinecraftServer]: Generating keypair
+[18:13:25] [Server thread/INFO] [minecraft/DedicatedServer]: Starting Minecraft server on *:25565
+[18:13:25] [Server thread/INFO] [minecraft/ServerConnectionListener]: Using default channel type
+[18:13:25] [Server thread/WARN] [minecraft/DedicatedServer]: **** FAILED TO BIND TO PORT!
+[18:13:25] [Server thread/WARN] [minecraft/DedicatedServer]: The exception was: java.net.BindException: Address already in use: bind
+[18:13:25] [Server thread/WARN] [minecraft/DedicatedServer]: Perhaps a server is already running on that port?
+[18:13:25] [Server thread/ERROR] [minecraft/MinecraftServer]: Encountered an unexpected exception
 java.lang.IllegalStateException: Failed to initialize server
         at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:635) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at java.lang.Thread.run(Thread.java:842) ~[?:?] {}
-[16:52:21] [Server thread/FATAL] [ne.mi.co.ForgeMod/]: Preparing crash report with UUID 7ed869c6-28ed-4d65-a17c-c03b93a9817a
-[16:52:21] [Server thread/ERROR] [minecraft/MinecraftServer]: This crash report has been saved to: C:\Users\minecraft\V1\Forge\.\crash-reports\crash-2024-08-17_16.52.21-server.txt
-[16:52:21] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
-[16:52:21] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
-[16:52:21] [Server thread/ERROR] [minecraft/MinecraftServer]: Exception stopping the server
-java.lang.NullPointerException: Cannot invoke "net.minecraft.server.level.ServerLevel.m_6857_()" because "serverlevel2" is null
-        at net.minecraft.server.MinecraftServer.m_129885_(MinecraftServer.java:513) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at net.minecraft.server.MinecraftServer.m_7041_(MinecraftServer.java:584) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
         at net.minecraft.server.dedicated.DedicatedServer.m_7041_(DedicatedServer.java:510) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:689) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}
-        at java.lang.Thread.run(Thread.java:842) ~[?:?] {}
+        at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:689) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}        at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[server-1.20.1-20230612.114412-srg.jar%23107!/:?] {re:classloading,pl:accesstransformer:B}        at java.lang.Thread.run(Thread.java:842) ~[?:?] {}
