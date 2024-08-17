@@ -122,6 +122,12 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
+reobf {
+    shadowJar {
+        // Reobfuscate the shadowed jar
+    }
+}
+
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
@@ -135,6 +141,7 @@ tasks.named('jar', Jar).configure {
         ])
     }
 
+    finalizedBy 'reobfJar'
 }
 
 publishing {
