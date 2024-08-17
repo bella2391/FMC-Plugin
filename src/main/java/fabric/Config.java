@@ -4,6 +4,9 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+
+import com.google.inject.Inject;
+
 import org.slf4j.Logger;
 
 import java.io.IOException;

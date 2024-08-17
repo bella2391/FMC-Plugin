@@ -42,17 +42,6 @@ public class LuckPermUtil
             return false;
         }
         
-        /*if (Objects.nonNull(user)) 
-        {
-            for (Node node : user.getNodes()) 
-            {
-                if (node instanceof PermissionNode && ((PermissionNode) node).getPermission().equals(permission)) 
-                {
-                    return true;
-                }
-            }
-        }*/
-        
         // 権限チェック
         return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
     }

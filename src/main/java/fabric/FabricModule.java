@@ -1,11 +1,11 @@
 package fabric;
 
-import java.io.IOException;
 
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
 
+import fabric_command.CommandForward;
 import net.fabricmc.loader.api.FabricLoader;
 import net.luckperms.api.LuckPerms;
 import net.minecraft.server.MinecraftServer;
@@ -21,21 +21,13 @@ public class FabricModule extends AbstractModule
 	public FabricModule
 	(
 		FabricLoader fabric, Logger logger, MinecraftServer server, 
-		LuckPerms luckperm
+		LuckPerms luckperm, Config config
 	)
 	{
 		this.fabric = fabric;
 		this.logger = logger;
 		this.server = server;
-		this.config = new Config(fabric, logger);
-    	try
-        {
-            config.loadConfig(); // 一度だけロードする
-        }
-        catch (IOException e1)
-        {
-            logger.error("Error loading config", e1);
-        }
+		this.config = config;
     	this.luckperm = luckperm;
 	}
 	
@@ -51,5 +43,7 @@ public class FabricModule extends AbstractModule
 		bind(ServerStatus.class);
 		bind(LuckPerms.class).toInstance(luckperm);
 		bind(LuckPermUtil.class);
+		bind(CommandForward.class);
+		bind(Rcon.class);
     }
 }

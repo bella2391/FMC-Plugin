@@ -1,5 +1,6 @@
 package fabric;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -7,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import fabric_command.FMCCommand;
 import net.fabricmc.api.ModInitializer;
@@ -18,8 +17,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -34,6 +31,7 @@ public class Main implements ModInitializer
 	private ServerStatus status;
 	private FMCCommand fmcCommand;
 	private LuckPerms luckperm;
+	private Rcon rcon;
 	
 	public Main()
 	{
@@ -44,30 +42,21 @@ public class Main implements ModInitializer
     @Override
     public void onInitialize()
     {
+    	// サーバー起動後ではなく、MOD読み込み時に行う
+    	this.config = new Config(fabric, logger);
+    	try
+        {
+            config.loadConfig(); // 一度だけロードする
+        }
+        catch (IOException e1)
+        {
+            logger.error("Error loading config", e1);
+        }
+    	
     	CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> 
         {
-            this.fmcCommand = new FMCCommand();
-            
-            dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("fmc")
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("reload")
-                            .executes(context -> fmcCommand.execute(context, "reload")))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("potion")
-                            .then(CommandManager.argument("effect", StringArgumentType.string())
-                                    .executes(context -> fmcCommand.execute(context, "potion"))))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("medic")
-                            .executes(context -> fmcCommand.execute(context, "medic")))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("fly")
-                            .executes(context -> fmcCommand.execute(context, "fly")))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("test")
-                            .then(CommandManager.argument("arg", StringArgumentType.string())
-                                    .executes(context -> fmcCommand.execute(context, "test"))))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("fv")
-                            .executes(context -> fmcCommand.execute(context, "fv")))
-                    .then(LiteralArgumentBuilder.<ServerCommandSource>literal("mcvc")
-                            .executes(context -> fmcCommand.execute(context, "mcvc")))
-            );
-            
-            System.out.println("Command registered: ");
+            this.fmcCommand = new FMCCommand(logger);
+            fmcCommand.registerCommand(dispatcher, registryAccess, environment);
         });
     	
     	// サーバーが起動したときに呼ばれるイベントフック
@@ -85,7 +74,7 @@ public class Main implements ModInitializer
                 return;
             }
             
-            injector = Guice.createInjector(new FabricModule(fabric, logger, server, luckperm));
+            injector = Guice.createInjector(new FabricModule(fabric, logger, server, luckperm, config));
             
             System.out.println("Hello, Fabric world!");
             
@@ -97,6 +86,9 @@ public class Main implements ModInitializer
             
             this.status = getInjector().getInstance(ServerStatus.class);
             status.doServerOnline();
+            
+            this.rcon = getInjector().getInstance(Rcon.class);
+            rcon.startMCVC();
         });
         
         // ServerLifecycleEvents.SERVER_STOPPING イベントでタスクを停止
@@ -110,6 +102,8 @@ public class Main implements ModInitializer
         	}
         	
         	status.doServerOffline();
+        	
+        	rcon.stopMCVC();
         });
         
     }

@@ -3,26 +3,65 @@ package fabric_command;
 import java.util.Arrays;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-import com.google.inject.Inject;
+import org.slf4j.Logger;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import fabric.LuckPermUtil;
 import fabric.Main;
+import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.CommandSource;
+import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
-public class FMCCommand {
-
-    private static final List<String> subcommands = Arrays.asList("reload", "potion", "medic", "fly", "test", "fv", "mcvc");
-    //private final LuckPermUtil lpUtil;
+public class FMCCommand 
+{
+    private static final List<String> subcommands = Arrays.asList("reload", "test", "fv");
+    private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
+    private final Logger logger;
     
-    @Inject
-    public FMCCommand()
+    public FMCCommand(Logger logger)
     {
-    	//
+    	this.logger = logger;
+    }
+    
+    // CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment)ブロックで読み込む
+    public void registerCommand(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment)
+    {
+    	logger.info("Registering fmc commands...");
+    	
+    	dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("fmc")
+    			.then(LiteralArgumentBuilder.<ServerCommandSource>literal("fv")
+    		            .then(CommandManager.argument("player", StringArgumentType.string())
+    		                .suggests((context, builder) -> CommandSource.suggestMatching(
+    		                    context.getSource().getServer().getPlayerManager().getPlayerNames(), builder))
+    		                .then(CommandManager.argument("proxy_cmds", StringArgumentType.greedyString())
+    		                    .executes(context -> execute(context, "fv")))))
+                .then(LiteralArgumentBuilder.<ServerCommandSource>literal("reload")
+                        .executes(context -> execute(context, "reload")))
+                .then(LiteralArgumentBuilder.<ServerCommandSource>literal("test")
+                        .then(CommandManager.argument("arg", StringArgumentType.string())
+                        		.suggests((context, builder) -> 
+                        		{
+                                    return CommandSource.suggestMatching(
+                                        context.getSource().getServer().getPlayerManager().getPlayerNames(), builder);
+                                })
+                                .then(CommandManager.argument("option", StringArgumentType.string())
+                                		.suggests((context, builder) -> 
+                                		{
+                                			return CommandSource.suggestMatching(customList, builder);
+                                		}
+                                )
+                         )
+                         .executes(context -> execute(context, "test"))))
+        );
     }
     
     public int execute(CommandContext<ServerCommandSource> context, String subcommand) throws CommandSyntaxException 
@@ -40,26 +79,17 @@ public class FMCCommand {
             switch (subcommand) 
             {
                 case "reload":
-                    // Handle reload
+                	Main.getInjector().getInstance(ReloadConfig.class).execute(context);
                     break;
-                case "potion":
-                    // Handle potion
-                    break;
-                case "medic":
-                    // Handle medic
-                    break;
-                case "fly":
-                    // Handle fly
-                    break;
+                    
                 case "test":
                 	source.sendMessage(Text.literal("TestCommandExecuted"));
                     break;
+                    
                 case "fv":
-                    // Handle fv
+                	Main.getInjector().getInstance(CommandForward.class).execute(context);
                     break;
-                case "mcvc":
-                    // Handle mcvc
-                    break;
+                    
                 default:
                     source.sendMessage(Text.literal("Unknown command"));
                     return 1;
