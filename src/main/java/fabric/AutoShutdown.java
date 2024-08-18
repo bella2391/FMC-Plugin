@@ -20,7 +20,7 @@ public class AutoShutdown
 
     @Inject
     public AutoShutdown(FabricLoader fabric, MinecraftServer server, Config config) 
-    {
+    { 
         this.fabric = fabric;
         this.server = server;
         this.config = config;
