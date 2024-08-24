@@ -1,7 +1,6 @@
 package fabric_command;
 
 import java.util.Arrays;
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,14 +15,13 @@ import fabric.LuckPermUtil;
 import fabric.Main;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
-import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
 public class FMCCommand 
 {
-    private static final List<String> subcommands = Arrays.asList("reload", "test", "fv");
     private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
     private final Logger logger;
     
@@ -78,28 +76,28 @@ public class FMCCommand
 
             switch (subcommand) 
             {
-                case "reload":
-                	Main.getInjector().getInstance(ReloadConfig.class).execute(context);
-                    break;
+                case "reload" -> Main.getInjector().getInstance(ReloadConfig.class).execute(context);
                     
-                case "test":
-                	source.sendMessage(Text.literal("TestCommandExecuted"));
-                    break;
+                case "test" -> source.sendMessage(Text.literal("TestCommandExecuted"));
                     
-                case "fv":
-                	Main.getInjector().getInstance(CommandForward.class).execute(context);
-                    break;
+                case "fv" -> Main.getInjector().getInstance(CommandForward.class).execute(context);
                     
-                default:
+                default -> 
+                {
                     source.sendMessage(Text.literal("Unknown command"));
                     return 1;
+                }
             }
             
             return 0; // 正常に実行された場合は 0 を返す
         }
         catch (Exception e) 
         {
-            e.printStackTrace(); // コンソールに例外を出力してデバッグ
+            logger.error("An Exception error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
             source.sendMessage(Text.literal("An error occurred while executing the command"));
             return 1; // 例外が発生した場合は 1 を返す
         }

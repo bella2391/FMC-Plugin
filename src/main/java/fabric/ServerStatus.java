@@ -15,7 +15,6 @@ public class ServerStatus
 {
 	private Connection conn = null;
 	private PreparedStatement ps = null;
-	private final FabricLoader fabric;
 	private final Logger logger;
 	private final SocketSwitch ssw;
 	private final Database db;
@@ -24,7 +23,6 @@ public class ServerStatus
 	@Inject
 	public ServerStatus(FabricLoader fabric, Logger logger, SocketSwitch ssw, Database db)
 	{
-		this.fabric = fabric;
 		this.logger = logger;
 		this.ssw = ssw;
 		this.db = db;
@@ -56,7 +54,11 @@ public class ServerStatus
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{
-			e.printStackTrace();
+			logger.error("A SQLException | ClassNotFoundException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
 		}
         finally
         {
@@ -81,7 +83,11 @@ public class ServerStatus
 		}
 		catch (SQLException | ClassNotFoundException e2)
 		{
-			e2.printStackTrace();
+			logger.error("A SQLException | ClassNotFoundException error occurred: " + e2.getMessage());
+            for (StackTraceElement element : e2.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
 		}
         finally
         {

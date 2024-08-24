@@ -1,16 +1,16 @@
 package fabric;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import com.google.inject.Inject;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.model.user.UserManager;
-import net.luckperms.api.node.Node;
-import net.luckperms.api.node.types.PermissionNode;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 public class LuckPermUtil 
@@ -33,16 +33,23 @@ public class LuckPermUtil
 	        return false;
 	    }
 	    
-        UserManager userManager = luckperm.getUserManager();
-        User user = userManager.getUser(source.getPlayer().getUuid());
-        
-        if(Objects.isNull(user))
-        {
-        	source.sendMessage(Text.literal("Error: User not found in LuckPerms."));
-            return false;
-        }
-        
-        // 権限チェック
-        return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
+		ServerPlayerEntity player = source.getPlayer();
+		
+		if(player != null)
+		{
+			UserManager userManager = luckperm.getUserManager();
+			UUID playerUUID = player.getUuid();
+			User user = userManager.getUser(playerUUID);
+			if(Objects.isNull(user))
+			{
+				source.sendMessage(Text.literal("Error: User not found in LuckPerms."));
+				return false;
+			}
+			
+			// 権限チェック
+			return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
+		}
+
+		return false;
     }
 }

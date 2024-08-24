@@ -7,21 +7,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.inject.Inject;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 
 public class AutoShutdown 
 {
-    private final FabricLoader fabric;
     private final MinecraftServer server;
     private final Config config;
     private final ScheduledExecutorService scheduler;
     private final AtomicBoolean isShutdown;
 
     @Inject
-    public AutoShutdown(FabricLoader fabric, MinecraftServer server, Config config) 
+    public AutoShutdown(MinecraftServer server, Config config) 
     { 
-        this.fabric = fabric;
         this.server = server;
         this.config = config;
         this.scheduler = Executors.newScheduledThreadPool(1);

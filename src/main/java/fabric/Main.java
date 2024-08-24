@@ -23,10 +23,9 @@ import net.minecraft.util.Formatting;
 public class Main implements ModInitializer
 {
 	private static Injector injector = null;
-	private FabricLoader fabric;
-	private Logger logger;
+	private final FabricLoader fabric;
+	private final Logger logger;
 	private Config config;
-	private MinecraftServer server;
 	private AutoShutdown autoShutdown = null;
 	private ServerStatus status;
 	private FMCCommand fmcCommand;
@@ -60,9 +59,9 @@ public class Main implements ModInitializer
         });
     	
     	// サーバーが起動したときに呼ばれるイベントフック
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> 
+        ServerLifecycleEvents.SERVER_STARTED.register(serverStart -> 
         {
-            this.server = server;
+            MinecraftServer server = serverStart;
             
             try 
             {
