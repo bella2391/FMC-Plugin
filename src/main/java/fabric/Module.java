@@ -11,14 +11,14 @@ import net.luckperms.api.LuckPerms;
 import net.minecraft.server.MinecraftServer;
 
 
-public class FabricModule extends AbstractModule
+public class Module extends AbstractModule
 {
 	private final FabricLoader fabric;
 	private final Config config;
 	private final Logger logger;
 	private final MinecraftServer server;
 	private final LuckPerms luckperm;
-	public FabricModule
+	public Module
 	(
 		FabricLoader fabric, Logger logger, MinecraftServer server, 
 		LuckPerms luckperm, Config config
