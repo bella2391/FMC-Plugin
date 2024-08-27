@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "fabricmod",
+  "version": "${version}",
+  "name": "Fabric Mod Example",
+  "description": "A simple example mod using Fabric API",
+  "authors": [
+    "Bella"
+  ],
+  "contact": {
+    "homepage": "https://example.com",
+    "sources": "https://github.com/example/fabricmod"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fabric.Main"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric": "*",
+    "minecraft": ">=1.20.0",
+	"luckperms": "*"
+  }
+}

@@ -45,5 +45,6 @@ public class FabricModule extends AbstractModule
 		bind(LuckPermUtil.class);
 		bind(CommandForward.class);
 		bind(Rcon.class);
+		bind(CountdownTask.class);
     }
 }

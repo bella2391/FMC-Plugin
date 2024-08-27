@@ -1,19 +1,34 @@
 package fabric;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+
+import com.google.inject.Inject;
+
 import net.minecraft.server.MinecraftServer;
 
 public class CountdownTask implements Runnable 
 {
     private final MinecraftServer server;
+    private final Logger logger;
     private final AtomicBoolean isShutdown;
     private final long delayMillis; // タイマーの遅延時間
+    private final ScheduledExecutorService scheduler;
+    private ScheduledFuture<?> shutdownTask;
 
-    public CountdownTask(MinecraftServer server, AtomicBoolean isShutdown, long delayMillis) 
+    @Inject
+    public CountdownTask(MinecraftServer server, Logger logger, Config config) 
     {
         this.server = server;
-        this.isShutdown = isShutdown;
-        this.delayMillis = delayMillis;
+        this.logger = logger;
+        this.isShutdown = new AtomicBoolean(false);
+        this.delayMillis = config.getLong("AutoStop.Interval", 3) * 60 * 1000;
+        this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
     @Override
@@ -21,57 +36,36 @@ public class CountdownTask implements Runnable
     {
         if (isShutdown.get()) return;
 
-        long startTime = System.currentTimeMillis();
-        while (true) 
+        // プレイヤーがいない場合にのみシャットダウンタスクをスケジュール
+        if (server.getCurrentPlayerCount() == 0) 
         {
-            // シャットダウンフラグが立っている場合は中断
-            if (isShutdown.get()) return;
-
-            // プレイヤーがいない場合にカウントダウンを開始
-            if (server.getCurrentPlayerCount() == 0) 
+            if (shutdownTask == null || shutdownTask.isCancelled()) 
             {
-                long elapsed = System.currentTimeMillis() - startTime;
-                if (elapsed >= delayMillis) 
-                {
-                    System.out.println("プレイヤー不在のため、サーバーを5秒後に停止します。");
-
-                    try 
-                    {
-                        for (int i = 5; i > 0; i--) 
-                        {
-                            if (isShutdown.get()) return;
-                            
-                            System.out.println(i);
-                            Thread.sleep(1000);
-                        }
-                    } 
-                    catch (InterruptedException e) 
-                    {
-                        Thread.currentThread().interrupt();
-                    }
-
-                    // シャットダウンフラグを設定し、サーバーを停止
-                    isShutdown.set(true);
-                    System.out.println("サーバーを停止します。");
-                    server.stop(false);
-                }
-            } 
-            else 
-            {
-                // プレイヤーがいる場合はタイマーをリセット
-                startTime = System.currentTimeMillis();
+                shutdownTask = scheduler.schedule(this::shutdownServer, delayMillis, TimeUnit.MILLISECONDS);
+                logger.info("プレイヤー不在のため、サーバーを停止するタスクがスケジュールされました。");
             }
-
-            // 1秒待機してから再度チェック
-            try 
+        } 
+        else 
+        {
+            // プレイヤーがいる場合はシャットダウンタスクをキャンセル
+            if (shutdownTask != null && !shutdownTask.isCancelled()) 
             {
-                Thread.sleep(1000);
-            } 
-            catch (InterruptedException e) 
-            {
-                Thread.currentThread().interrupt();
-                return;
+                shutdownTask.cancel(false);
+                logger.info("プレイヤーがいるため、サーバーの停止タスクをキャンセルしました。");
             }
         }
+
+        // 定期的にチェックを続けるために、次のチェックをスケジュール
+        scheduler.schedule(this, 1, TimeUnit.SECONDS);
+    }
+
+    private void shutdownServer() 
+    {
+        if (isShutdown.get()) return;
+
+        logger.info("サーバーを停止します。");
+        isShutdown.set(true);
+        server.stop(false);
+        scheduler.shutdown();
     }
 }
