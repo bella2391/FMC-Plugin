@@ -52,7 +52,11 @@ public class ServerStatus
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{
-			e.printStackTrace();
+			logger.error("A SQLException | ClassNotFoundException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
 		}
         finally
         {
@@ -77,7 +81,11 @@ public class ServerStatus
 		}
 		catch (SQLException | ClassNotFoundException e2)
 		{
-			e2.printStackTrace();
+			logger.error("A SQLException | ClassNotFoundException error occurred: " + e2.getMessage());
+            for (StackTraceElement element : e2.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
 		}
         finally
         {

@@ -1,15 +1,16 @@
 package forge;
 
+import java.util.Objects;
+import java.util.UUID;
+
+import com.google.inject.Inject;
+
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.model.user.UserManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import java.util.Objects;
-
-import com.google.inject.Inject;
-import com.mojang.brigadier.context.CommandContext;
 
 public class LuckPermUtil 
 {
@@ -32,17 +33,23 @@ public class LuckPermUtil
             return false;
         }
 
-        ServerPlayer player = (ServerPlayer) source.getEntity();
-        UserManager userManager = luckperm.getUserManager();
-        User user = userManager.getUser(player.getUUID());
+        ServerPlayer player = source.getPlayer();
+		
+		if(player != null)
+		{
+			UserManager userManager = luckperm.getUserManager();
+			UUID playerUUID = player.getUUID();
+			User user = userManager.getUser(playerUUID);
+			if(Objects.isNull(user))
+			{
+				source.sendFailure(Component.literal("Error: User not found in LuckPerms."));
+				return false;
+			}
+			
+			// 権限チェック
+			return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
+		}
 
-        if (Objects.isNull(user)) 
-        {
-        	source.sendFailure(Component.literal("Error: User not found in LuckPerms."));
-            return false;
-        }
-
-        // 権限チェック
-        return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
+		return false;
     }
 }

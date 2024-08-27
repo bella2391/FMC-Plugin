@@ -1,3 +1,5 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "gradle.useCommand": "gradle",
+    "gradle.home": "C:\\Gradle\\gradle-8.10",
 }

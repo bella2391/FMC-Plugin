@@ -7,28 +7,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 public class Database
 {
     public static Connection conn;
     private final Config config;
-    
+    private final Logger logger;
+
     @Inject
-    public Database(Config config)
+    public Database(Config config, Logger logger)
     {
     	this.config = config;
+		this.logger = logger;
     }
     
 	public Connection getConnection() throws SQLException, ClassNotFoundException
 	{
+		String host = config.getString("MySQL.Host", "");
+		int port = config.getInt("MySQL.Port", 0);
+		String database = config.getString("MySQL.Database", "");
+		String user = config.getString("MySQL.User", "");
+		String password = config.getString("MySQL.Password", "");
 		if
 		(
-			config.getString("MySQL.Host", "").isEmpty() || 
-			config.getInt("MySQL.Port", 0) == 0 || 
-			config.getString("MySQL.Database", "").isEmpty() || 
-			config.getString("MySQL.User", "").isEmpty() || 
-			config.getString("MySQL.Password", "").isEmpty()
+			(host != null && host.isEmpty()) || 
+			port == 0 || 
+			(database != null && database.isEmpty()) || 
+			(user != null && user.isEmpty()) || 
+			(password != null && password.isEmpty())
 		)
 		{
 			return null;
@@ -41,14 +50,7 @@ public class Database
             if (Objects.nonNull(conn) && !conn.isClosed()) return conn;
             
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection
-            		(
-            			"jdbc:mysql://" + config.getString("MySQL.Host") + ":" + 
-            			config.getInt("MySQL.Port") + "/" + 
-            			config.getString("MySQL.Database"),
-            			config.getString("MySQL.User"),
-            			config.getString("MySQL.Password")
-            		);
+            conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
             return conn;
         }
     }
@@ -67,7 +69,11 @@ public class Database
 	                }
 			    	catch (SQLException e)
 			    	{
-	                    e.printStackTrace();
+	                    logger.error("A SQLException error occurred: " + e.getMessage());
+						for (StackTraceElement element : e.getStackTrace()) 
+						{
+							logger.error(element.toString());
+						}
 	                }
 			    }
 			}
@@ -81,7 +87,11 @@ public class Database
             }
 			catch (SQLException e)
 			{
-                e.printStackTrace();
+                logger.error("A SQLException error occurred: " + e.getMessage());
+				for (StackTraceElement element : e.getStackTrace()) 
+				{
+					logger.error(element.toString());
+				}
             }
 		}
 		
@@ -93,7 +103,11 @@ public class Database
             }
 			catch (SQLException e)
 			{
-                e.printStackTrace();
+                logger.error("A SQLException error occurred: " + e.getMessage());
+				for (StackTraceElement element : e.getStackTrace()) 
+				{
+					logger.error(element.toString());
+				}
             }
 		}
 	}

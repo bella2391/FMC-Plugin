@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Guice;
 import com.mojang.brigadier.CommandDispatcher;
 
+import forge.Module;
 import forge_command.FMCCommand;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -43,7 +44,7 @@ public class ServerModEvent
         }
 		
 		config = Main.getConfig();
-		Main.injector = Guice.createInjector(new ForgeModule(logger, luckperm, config, server));
+		Main.injector = Guice.createInjector(new Module(logger, luckperm, config, server));
 		
 		
 		

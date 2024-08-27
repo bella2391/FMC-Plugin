@@ -1,7 +1,13 @@
 package forge;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Injector;
-import com.mojang.logging.LogUtils;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -10,12 +16,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Main.MODID)
 public class Main
@@ -23,7 +23,7 @@ public class Main
     // Define mod id in a common place for everything to reference
     public static final String MODID = "fmc";
     public static Injector injector = null;
-    public static final Logger logger = LogUtils.getLogger();
+    public static final Logger logger = LoggerFactory.getLogger("fmc");
     public static Config config = null;
     public static Path gameDir = null;
     public Path configDir = null;
@@ -33,23 +33,21 @@ public class Main
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
-
-        MinecraftForge.EVENT_BUS.register(this);
-
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent e)
     {
+        MinecraftForge.EVENT_BUS.register(this);
+
     	logger.info("THIS IS COMMON SETUP.");
         
-        this.configDir = FMLPaths.CONFIGDIR.get();  // これが config ディレクトリの Path
+        this.configDir = FMLPaths.CONFIGDIR.get();
         gameDir = configDir.getParent();
-        Path modConfigDir = configDir.resolve(MODID); // MODID に基づくディレクトリ
-        this.config = new Config(logger, modConfigDir);
+        Path modConfigDir = configDir.resolve(MODID);
+        Main.config = new Config(logger, modConfigDir);
         try
         {
-            config.loadConfig(); // 一度だけロードする
+            config.loadConfig();
         }
         catch (IOException e1)
         {

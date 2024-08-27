@@ -1,6 +1,7 @@
 package forge;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -57,8 +58,13 @@ public class SocketSwitch
 	    {
 	    	writer.write(sendmsg + "\n");
 	    	writer.flush();
-	    } catch (Exception e) {
-	        e.printStackTrace();
+	    } catch (Exception e) 
+        {
+	        logger.error("An Exception error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
 	    }
 	}
 
@@ -74,7 +80,11 @@ public class SocketSwitch
         }
         catch (InterruptedException e)
         {
-            e.printStackTrace();
+            logger.error("An InterruptedException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
         }
     }
     
@@ -107,20 +117,26 @@ public class SocketSwitch
                         logger.info("New client connected");
                         new SocketServerThread(socket, logger).start();
                     }
-                    catch (Exception e)
+                    catch (IOException e)
                     {
                         if (running) 
                         {
-                            logger.error("Error accepting client connection");
-                            e.printStackTrace();
+                            logger.error("An IOException error occurred: " + e.getMessage());
+                            for (StackTraceElement element : e.getStackTrace()) 
+                            {
+                                logger.error(element.toString());
+                            }
                         }
                     }
                 }
             }
-            catch (Exception e)
+            catch (IOException e)
             {
-                logger.error("Socket Server socket error");
-                e.printStackTrace();
+                logger.error("An IOException error occurred: " + e.getMessage());
+                for (StackTraceElement element : e.getStackTrace()) 
+                {
+                    logger.error(element.toString());
+                }
             } 
            finally
            {
@@ -131,9 +147,13 @@ public class SocketSwitch
                         serverSocket.close();
                     }
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
-                    e.printStackTrace();
+                    logger.error("An IOException error occurred: " + e.getMessage());
+                    for (StackTraceElement element : e.getStackTrace()) 
+                    {
+                        logger.error(element.toString());
+                    }
                 }
             }
         });
@@ -151,9 +171,13 @@ public class SocketSwitch
                 serverSocket.close(); // これによりaccept()が解除される
             }
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("An IOException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
         }
         try
         {
@@ -166,9 +190,13 @@ public class SocketSwitch
                 }
             }
         }
-        catch (Exception e)
+        catch (InterruptedException e)
         {
-            e.printStackTrace();
+            logger.error("An InterruptedException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
         }
     }
 }

@@ -19,7 +19,6 @@ import net.minecraft.network.chat.Component;
 
 public class FMCCommand {
 
-    private static final List<String> subcommands = Arrays.asList("reload", "test", "fv");
     private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
     private final Logger logger;
 
@@ -71,21 +70,17 @@ public class FMCCommand {
 
             switch (subcommand) 
             {
-                case "reload":
-                	Main.getInjector().getInstance(ReloadConfig.class).execute(context);
-                    break;
+                case "reload" -> Main.getInjector().getInstance(ReloadConfig.class).execute(context);
 
-                case "test":
-                    source.sendSuccess(() -> Component.literal("TestCommandExecuted"), false);
-                    break;
+                case "test" -> source.sendSuccess(() -> Component.literal("TestCommandExecuted"), false);
 
-                case "fv":
-                    Main.getInjector().getInstance(CommandForward.class).execute(context);
-                    break;
+                case "fv" -> Main.getInjector().getInstance(CommandForward.class).execute(context);
 
-                default:
+                default -> 
+                {
                     source.sendFailure(Component.literal("Unknown command"));
                     return 1;
+                }
             }
 
             return 0; // 正常に実行された場合は 0 を返す

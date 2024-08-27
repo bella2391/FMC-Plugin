@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
@@ -52,7 +55,11 @@ public class Rcon
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("An IOException error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
             return;
         }
 
@@ -84,7 +91,7 @@ public class Rcon
         }
 	}
 	
-	private void onRconActivated(String RCON_HOST, int RCON_PORT, String RCON_PASS)
+	private void onRconActivated(int RCON_PORT, String RCON_PASS)
 	{
         // RCONが有効になった後の処理
         logger.info("RCON is active. Performing specific actions...");
@@ -119,7 +126,11 @@ public class Rcon
 			}
 	        catch (IOException e)
 	        {
-				e.printStackTrace();
+				logger.error("An IOException error occurred: " + e.getMessage());
+				for (StackTraceElement element : e.getStackTrace()) 
+				{
+					logger.error(element.toString());
+				}
 			}
 		}
 		else
@@ -128,51 +139,50 @@ public class Rcon
 		}
     }
 	
-	private void monitorRcon(String RCON_HOST, int RCON_PORT, String RCON_PASS)
+	private void monitorRcon(String RCON_HOST, int RCON_PORT, String RCON_PASS) 
 	{
-	    try
-	    {
-	        while (!Thread.currentThread().isInterrupted())
-	        {
-	            if (!isRconActive && checkRconRunning(RCON_HOST, RCON_PORT))
-	            {
-	                isRconActive = true;
-	                server.execute(() -> 
-	                {
-	                    // RCONが有効になった後の処理をメインスレッドで実行
-	                    if (isRconActive) { 
-	                        logger.info("Running onRconActivated method.");
-	                        onRconActivated(RCON_HOST, RCON_PORT, RCON_PASS);
-	                        isRconActive = false; // フラグをリセット
-	                    }
-	                });
-	                break;
-	            }
-	
-		        // 一定の待ち時間（例えば5秒）を設ける
-		        try
-		        {
-		            Thread.sleep(5000);
-		        }
-		        catch (InterruptedException e)
-		        {
-		            // スレッドが中断された場合は終了
-		            Thread.currentThread().interrupt();
-		        }
-	        }
-	    }
-		finally
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+		Runnable monitorTask = () -> 
 		{
-		    // スレッド終了時の処理
-		    logger.info("RCON monitor thread stopping.");
-		}
+			if (!isRconActive && checkRconRunning(RCON_HOST, RCON_PORT))
+			{
+				isRconActive = true;
+				
+				server.execute(() -> 
+				{
+					// RCONが有効になった後の処理をメインスレッドで実行
+					if (isRconActive)
+					{ // メインスレッドでチェック
+						logger.info("Running onRconActivated method.");
+						onRconActivated(RCON_PORT, RCON_PASS);
+						isRconActive = false; // フラグをリセット
+					}
+				});
+				
+				// RCONが有効になったのでタスクを終了
+				scheduler.shutdown();
+			}
+		};
+
+		// 一定間隔（例えば5秒）でタスクをスケジュールする
+		scheduler.scheduleWithFixedDelay(monitorTask, 0, 5, TimeUnit.SECONDS);
+
+		// スレッド終了時の処理を追加するために、スケジューラを監視する
+		scheduler.schedule(() -> 
+		{
+			if (scheduler.isShutdown()) 
+			{
+				logger.info("RCON monitor thread stopping.");
+			}
+		}, 5, TimeUnit.SECONDS);
 	}
 	  
 	private boolean checkRconRunning(String host, int port)
 	{
 	    try (Socket socket = new Socket(host, port))
 	    {
-	        return true; // RCONが動作中
+	        return socket.isConnected(); // RCONが動作中
 	    }
 	    catch (IOException e)
 	    {

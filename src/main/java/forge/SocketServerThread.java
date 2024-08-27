@@ -1,8 +1,8 @@
 package forge;
 
 import java.io.DataInputStream;
-
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import com.google.common.io.ByteStreams;
 
 public class SocketServerThread extends Thread 
 {
-    private Socket socket;
+    private final Socket socket;
     private final Logger logger;
     
     public SocketServerThread(Socket socket, Logger logger) 
@@ -22,6 +22,7 @@ public class SocketServerThread extends Thread
         this.logger = logger;
     }
 
+    @Override
     public void run() 
     {
         try
@@ -53,7 +54,11 @@ public class SocketServerThread extends Thread
         } 
         catch (Exception e) 
         {
-            e.printStackTrace();
+            logger.error("An Exception error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) 
+            {
+                logger.error(element.toString());
+            }
         } 
         finally 
         {
@@ -64,9 +69,13 @@ public class SocketServerThread extends Thread
                     socket.close();
                 }
             } 
-            catch (Exception e) 
+            catch (IOException e) 
             {
-                e.printStackTrace();
+                logger.error("An IOException error occurred: " + e.getMessage());
+                for (StackTraceElement element : e.getStackTrace()) 
+                {
+                    logger.error(element.toString());
+                }
             }
         }
     }
