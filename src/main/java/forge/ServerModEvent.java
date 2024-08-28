@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import com.google.inject.Guice;
 import com.mojang.brigadier.CommandDispatcher;
 
-import forge.Module;
 import forge_command.FMCCommand;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
