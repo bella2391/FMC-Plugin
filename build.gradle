@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.example'
+group = 'net.keyp.forev'
 version = '1.0.0'
 
 base {
