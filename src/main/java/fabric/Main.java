@@ -21,8 +21,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class Main implements ModInitializer
-{
+public class Main implements ModInitializer {
+
 	private static Injector injector = null;
 	private final FabricLoader fabric;
 	private final Logger logger;
@@ -33,43 +33,33 @@ public class Main implements ModInitializer
 	private LuckPerms luckperm;
 	private Rcon rcon;
 	
-	public Main()
-	{
+	public Main() {
 		this.fabric = FabricLoader.getInstance();
 		this.logger = LoggerFactory.getLogger("FMC");
 	}
 	
     @Override
-    public void onInitialize()
-    {
+    public void onInitialize() {
     	// サーバー起動後ではなく、MOD読み込み時に行う
     	this.config = new Config(fabric, logger);
-    	try
-        {
+    	try {
             config.loadConfig(); // 一度だけロードする
-        }
-        catch (IOException e1)
-        {
+        } catch (IOException e1) {
             logger.error("Error loading config", e1);
         }
     	
-    	CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> 
-        {
+    	CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             this.fmcCommand = new FMCCommand(logger);
             fmcCommand.registerCommand(dispatcher, registryAccess, environment);
         });
     	
     	// サーバーが起動したときに呼ばれるイベントフック
-        ServerLifecycleEvents.SERVER_STARTED.register(serverStart -> 
-        {
+        ServerLifecycleEvents.SERVER_STARTED.register(serverStart -> {
             MinecraftServer server = serverStart;
             
-            try 
-            {
+            try {
                 this.luckperm = LuckPermsProvider.get();
-            } 
-            catch (IllegalStateException e) 
-            {
+            } catch (IllegalStateException e) {
                 System.err.println("LuckPermsが見つかりませんでした。");
                 return;
             }
@@ -92,12 +82,10 @@ public class Main implements ModInitializer
         });
         
         // ServerLifecycleEvents.SERVER_STOPPING イベントでタスクを停止
-        ServerLifecycleEvents.SERVER_STOPPING.register(server -> 
-        {
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
         	server.sendMessage(Text.literal("サーバーが停止中です...").formatted(Formatting.RED));
         	
-        	if(Objects.nonNull(autoShutdown))
-        	{
+        	if (Objects.nonNull(autoShutdown)) {
         		autoShutdown.stop();
         	}
         	
@@ -108,10 +96,8 @@ public class Main implements ModInitializer
         
     }
     
-    public static synchronized Injector getInjector()
-    {
-    	if(Objects.isNull(injector))
-    	{
+    public static synchronized Injector getInjector() {
+    	if (Objects.isNull(injector)) {
     		throw new IllegalStateException("Injector has not been initialized yet.");
     	}
     	

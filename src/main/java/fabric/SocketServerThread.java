@@ -1,8 +1,8 @@
 package fabric;
 
 import java.io.DataInputStream;
-
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 import org.slf4j.Logger;
@@ -11,25 +11,22 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
-public class SocketServerThread extends Thread 
-{
-    private Socket socket;
+public class SocketServerThread extends Thread {
+
+    private final Socket socket;
     private final Logger logger;
     
-    public SocketServerThread(Socket socket, Logger logger) 
-    {
+    public SocketServerThread(Socket socket, Logger logger) {
         this.socket = socket;
         this.logger = logger;
     }
 
-    public void run() 
-    {
-        try
-        (	
-        	 DataInputStream in = new DataInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream())
-        )
-        {
+    @Override
+    public void run() {
+        try (	
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream())
+        ) {
             // クライアントからのデータを受信
             int length = in.readInt(); // データの長さを最初に受信
             byte[] data = new byte[length];
@@ -50,23 +47,21 @@ public class SocketServerThread extends Thread
             out.writeInt(responseData.length); // レスポンスの長さを最初に送信
             out.write(responseData); // 実際のレスポンスデータを送信
 
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        } 
-        finally 
-        {
-            try 
-            {
-                if (socket != null && !socket.isClosed()) 
-                {
+        } catch (Exception e) {
+            logger.error("An Exception error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) {
+                logger.error(element.toString());
+            }
+        } finally {
+            try {
+                if (socket != null && !socket.isClosed()) {
                     socket.close();
                 }
-            } 
-            catch (Exception e) 
-            {
-                e.printStackTrace();
+            } catch (IOException e) {
+                logger.error("An IOException error occurred: " + e.getMessage());
+                for (StackTraceElement element : e.getStackTrace()) {
+                    logger.error(element.toString());
+                }
             }
         }
     }

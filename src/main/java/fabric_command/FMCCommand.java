@@ -20,19 +20,17 @@ import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
-public class FMCCommand 
-{
+public class FMCCommand {
+
     private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
     private final Logger logger;
     
-    public FMCCommand(Logger logger)
-    {
+    public FMCCommand(Logger logger) {
     	this.logger = logger;
     }
     
     // CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment)ブロックで読み込む
-    public void registerCommand(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment)
-    {
+    public void registerCommand(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
     	logger.info("Registering fmc commands...");
     	
     	dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("fmc")
@@ -46,14 +44,12 @@ public class FMCCommand
                         .executes(context -> execute(context, "reload")))
                 .then(LiteralArgumentBuilder.<ServerCommandSource>literal("test")
                         .then(CommandManager.argument("arg", StringArgumentType.string())
-                        		.suggests((context, builder) -> 
-                        		{
+                        		.suggests((context, builder) -> {
                                     return CommandSource.suggestMatching(
                                         context.getSource().getServer().getPlayerManager().getPlayerNames(), builder);
                                 })
                                 .then(CommandManager.argument("option", StringArgumentType.string())
-                                		.suggests((context, builder) -> 
-                                		{
+                                		.suggests((context, builder) -> {
                                 			return CommandSource.suggestMatching(customList, builder);
                                 		}
                                 )
@@ -62,42 +58,35 @@ public class FMCCommand
         );
     }
     
-    public int execute(CommandContext<ServerCommandSource> context, String subcommand) throws CommandSyntaxException 
-    {
+    public int execute(CommandContext<ServerCommandSource> context, String subcommand) throws CommandSyntaxException {
         ServerCommandSource source = context.getSource();
         
-        try
-        {
-        	if (!Main.getInjector().getInstance(LuckPermUtil.class).hasPermission(source, "fmc." + subcommand)) 
-            {
+        try {
+        	if (!Main.getInjector().getInstance(LuckPermUtil.class).hasPermission(source, "fmc." + subcommand)) {
                 source.sendMessage(Text.literal("Access denied"));
                 return 1;
             }
 
-            switch (subcommand) 
-            {
+            switch (subcommand) {
                 case "reload" -> Main.getInjector().getInstance(ReloadConfig.class).execute(context);
                     
                 case "test" -> source.sendMessage(Text.literal("TestCommandExecuted"));
                     
                 case "fv" -> Main.getInjector().getInstance(CommandForward.class).execute(context);
                     
-                default -> 
-                {
+                default -> {
                     source.sendMessage(Text.literal("Unknown command"));
                     return 1;
                 }
             }
             
             return 0; // 正常に実行された場合は 0 を返す
-        }
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             logger.error("An Exception error occurred: " + e.getMessage());
-            for (StackTraceElement element : e.getStackTrace()) 
-            {
+            for (StackTraceElement element : e.getStackTrace()) {
                 logger.error(element.toString());
             }
+            
             source.sendMessage(Text.literal("An error occurred while executing the command"));
             return 1; // 例外が発生した場合は 1 を返す
         }

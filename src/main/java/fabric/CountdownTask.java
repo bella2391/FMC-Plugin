@@ -12,8 +12,8 @@ import com.google.inject.Inject;
 
 import net.minecraft.server.MinecraftServer;
 
-public class CountdownTask implements Runnable 
-{
+public class CountdownTask implements Runnable {
+
     private final MinecraftServer server;
     private final Logger logger;
     private final AtomicBoolean isShutdown;
@@ -22,8 +22,7 @@ public class CountdownTask implements Runnable
     private ScheduledFuture<?> shutdownTask;
 
     @Inject
-    public CountdownTask(MinecraftServer server, Logger logger, Config config) 
-    {
+    public CountdownTask(MinecraftServer server, Logger logger, Config config) {
         this.server = server;
         this.logger = logger;
         this.isShutdown = new AtomicBoolean(false);
@@ -32,24 +31,18 @@ public class CountdownTask implements Runnable
     }
 
     @Override
-    public void run() 
-    {
+    public void run() {
         if (isShutdown.get()) return;
 
         // プレイヤーがいない場合にのみシャットダウンタスクをスケジュール
-        if (server.getCurrentPlayerCount() == 0) 
-        {
-            if (shutdownTask == null || shutdownTask.isCancelled()) 
-            {
+        if (server.getCurrentPlayerCount() == 0) {
+            if (shutdownTask == null || shutdownTask.isCancelled()) {
                 shutdownTask = scheduler.schedule(this::shutdownServer, delayMillis, TimeUnit.MILLISECONDS);
                 logger.info("プレイヤー不在のため、サーバーを停止するタスクがスケジュールされました。");
             }
-        } 
-        else 
-        {
+        } else {
             // プレイヤーがいる場合はシャットダウンタスクをキャンセル
-            if (shutdownTask != null && !shutdownTask.isCancelled()) 
-            {
+            if (shutdownTask != null && !shutdownTask.isCancelled()) {
                 shutdownTask.cancel(false);
                 logger.info("プレイヤーがいるため、サーバーの停止タスクをキャンセルしました。");
             }
@@ -59,8 +52,7 @@ public class CountdownTask implements Runnable
         scheduler.schedule(this, 1, TimeUnit.SECONDS);
     }
 
-    private void shutdownServer() 
-    {
+    private void shutdownServer() {
         if (isShutdown.get()) return;
 
         logger.info("サーバーを停止します。");

@@ -11,19 +11,17 @@ import net.luckperms.api.LuckPerms;
 import net.minecraft.server.MinecraftServer;
 
 
-public class Module extends AbstractModule
-{
+public class Module extends AbstractModule {
+
 	private final FabricLoader fabric;
 	private final Config config;
 	private final Logger logger;
 	private final MinecraftServer server;
 	private final LuckPerms luckperm;
-	public Module
-	(
+	public Module (
 		FabricLoader fabric, Logger logger, MinecraftServer server, 
 		LuckPerms luckperm, Config config
-	)
-	{
+	) {
 		this.fabric = fabric;
 		this.logger = logger;
 		this.server = server;
@@ -32,8 +30,7 @@ public class Module extends AbstractModule
 	}
 	
 	@Override
-    protected void configure()
-    {
+    protected void configure() {
 		bind(Config.class).toInstance(config);
 		bind(FabricLoader.class).toInstance(fabric);
 		bind(Logger.class).toInstance(logger);
