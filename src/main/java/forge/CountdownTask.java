@@ -15,8 +15,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 
-public class CountdownTask implements Runnable 
-{
+public class CountdownTask implements Runnable {
+
     private final MinecraftServer server;
     private final Logger logger;
     private final AtomicBoolean isShutdown;
@@ -25,8 +25,7 @@ public class CountdownTask implements Runnable
     private ScheduledFuture<?> shutdownTask;
 
     @Inject
-    public CountdownTask(MinecraftServer server, Config config, Logger logger) 
-    {
+    public CountdownTask(MinecraftServer server, Config config, Logger logger) {
         this.server = server;
         this.logger = logger;
         this.isShutdown = new AtomicBoolean(false);
@@ -35,24 +34,18 @@ public class CountdownTask implements Runnable
     }
 
     @Override
-    public void run() 
-    {
+    public void run() {
         if (isShutdown.get()) return;
 
         // プレイヤーがいない場合にのみシャットダウンタスクをスケジュール
-        if (server.getPlayerCount() == 0) 
-        {
-            if (shutdownTask == null || shutdownTask.isCancelled()) 
-            {
+        if (server.getPlayerCount() == 0) {
+            if (shutdownTask == null || shutdownTask.isCancelled()) {
                 shutdownTask = scheduler.schedule(this::shutdownServer, delayMillis, TimeUnit.MILLISECONDS);
                 //logger.info("プレイヤー不在のため、サーバーを停止するタスクがスケジュールされました。");
             }
-        } 
-        else 
-        {
+        } else {
             // プレイヤーがいる場合はシャットダウンタスクをキャンセル
-            if (shutdownTask != null && !shutdownTask.isCancelled()) 
-            {
+            if (shutdownTask != null && !shutdownTask.isCancelled()) {
                 shutdownTask.cancel(false);
                 //logger.info("プレイヤーがいるため、サーバーの停止タスクをキャンセルしました。");
             }
@@ -62,8 +55,7 @@ public class CountdownTask implements Runnable
         scheduler.schedule(this, 1, TimeUnit.SECONDS);
     }
 
-    private void shutdownServer() 
-    {
+    private void shutdownServer() {
         if (isShutdown.get()) return;
 
         logger.info("サーバーを停止します。");
@@ -72,15 +64,11 @@ public class CountdownTask implements Runnable
         // コマンドを実行するためのコマンドディスパッチャーを取得
         CommandDispatcher<CommandSourceStack> dispatcher = server.getCommands().getDispatcher();
         CommandSourceStack source = server.createCommandSourceStack();
-        try 
-        {
+        try {
             dispatcher.execute("stop", source);
-        } 
-        catch (CommandSyntaxException e) 
-        {
+        } catch (CommandSyntaxException e) {
             logger.error("An IOException error occurred: " + e.getMessage());
-            for (StackTraceElement element : e.getStackTrace()) 
-            {
+            for (StackTraceElement element : e.getStackTrace()) {
                 logger.error(element.toString());
             }
         }

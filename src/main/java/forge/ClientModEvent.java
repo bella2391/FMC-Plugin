@@ -9,18 +9,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientModEvent 
-{
+public class ClientModEvent {
 	private final Logger logger;
 	
-	public ClientModEvent()
-	{
+	public ClientModEvent() {
 		this.logger = Main.logger;
 	}
 	
 	@SubscribeEvent
-    public void onClientSetup(FMLClientSetupEvent event)
-    {
+    public void onClientSetup(FMLClientSetupEvent e) {
         logger.info("HELLO FROM CLIENT SETUP");
         logger.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
     }

@@ -18,8 +18,8 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Main.MODID)
-public class Main
-{
+public class Main {
+
     // Define mod id in a common place for everything to reference
     public static final String MODID = "fmc";
     public static Injector injector = null;
@@ -28,15 +28,12 @@ public class Main
     public static Path gameDir = null;
     public Path configDir = null;
     
-    public Main()
-    {
+    public Main() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         modEventBus.addListener(this::commonSetup);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent e)
-    {
+    private void commonSetup(final FMLCommonSetupEvent e) {
         MinecraftForge.EVENT_BUS.register(this);
 
     	logger.info("THIS IS COMMON SETUP.");
@@ -45,33 +42,26 @@ public class Main
         gameDir = configDir.getParent();
         Path modConfigDir = configDir.resolve(MODID);
         Main.config = new Config(logger, modConfigDir);
-        try
-        {
+        try {
             config.loadConfig();
-        }
-        catch (IOException e1)
-        {
+        } catch (IOException e1) {
             logger.error("Error loading config", e1);
         }
     }
 
-    public static synchronized Injector getInjector()
-    {
-    	if(Objects.isNull(injector))
-    	{
+    public static synchronized Injector getInjector() {
+    	if (Objects.isNull(injector)) {
     		throw new IllegalStateException("Injector has not been initialized yet.");
     	}
     	
         return injector;
     }
     
-    public static Config getConfig()
-    {
+    public static Config getConfig() {
     	return config;
     }
     
-    public static Path getGameDir()
-    {
+    public static Path getGameDir() {
     	return gameDir;
     }
 }

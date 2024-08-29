@@ -22,8 +22,7 @@ public class FMCCommand {
     private static final List<String> customList = Arrays.asList("option1", "option2", "option3");
     private final Logger logger;
 
-    public FMCCommand(Logger logger)
-    {
+    public FMCCommand(Logger logger) {
         this.logger = logger;
     }
 
@@ -56,38 +55,35 @@ public class FMCCommand {
         ));
     }
 
-    public int execute(CommandContext<CommandSourceStack> context, String subcommand) throws CommandSyntaxException 
-    {
+    public int execute(CommandContext<CommandSourceStack> context, String subcommand) throws CommandSyntaxException {
         CommandSourceStack source = context.getSource();
 
-        try 
-        {
-            if (!Main.getInjector().getInstance(LuckPermUtil.class).hasPermission(source, "fmc." + subcommand)) 
-            {
+        try {
+            if (!Main.getInjector().getInstance(LuckPermUtil.class).hasPermission(source, "fmc." + subcommand)) {
                 source.sendFailure(Component.literal("Access denied"));
                 return 1;
             }
 
-            switch (subcommand) 
-            {
+            switch (subcommand) {
                 case "reload" -> Main.getInjector().getInstance(ReloadConfig.class).execute(context);
 
                 case "test" -> source.sendSuccess(() -> Component.literal("TestCommandExecuted"), false);
 
                 case "fv" -> Main.getInjector().getInstance(CommandForward.class).execute(context);
 
-                default -> 
-                {
+                default -> {
                     source.sendFailure(Component.literal("Unknown command"));
                     return 1;
                 }
             }
 
             return 0; // 正常に実行された場合は 0 を返す
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace(); // コンソールに例外を出力してデバッグ
+        } catch (Exception e) {
+            logger.error("An Exception error occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) {
+                logger.error(element.toString());
+            }
+
             source.sendFailure(Component.literal("An error occurred while executing the command"));
             return 1; // 例外が発生した場合は 1 を返す
         }

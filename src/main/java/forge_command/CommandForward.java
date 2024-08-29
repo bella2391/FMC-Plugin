@@ -8,18 +8,16 @@ import forge.SocketSwitch;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 
-public class CommandForward
-{
+public class CommandForward {
+
 	private final SocketSwitch ssw;
 	
 	@Inject
-	public CommandForward(SocketSwitch ssw)
-	{
+	public CommandForward(SocketSwitch ssw) {
 		this.ssw = ssw;
 	}
 	
-	public int execute(CommandContext<CommandSourceStack> context)
-	{
+	public int execute(CommandContext<CommandSourceStack> context) {
 		CommandSourceStack source = context.getSource();
 		
 	    String playerName = StringArgumentType.getString(context, "player");
@@ -27,12 +25,9 @@ public class CommandForward
 	    
 	    StringBuilder allcmd = new StringBuilder(); // コマンドを組み立てる
 	    
-	    if (source.getEntity() instanceof ServerPlayer) 
-	    {
+	    if (source.getEntity() instanceof ServerPlayer) {
 	        allcmd.append(source.getPlayer()).append(" fv ").append(playerName).append(" ").append(args); // コマンドを打ったプレイヤー名をallcmdに乗せる
-	    } 
-	    else 
-	    {
+	    } else {
 	        allcmd.append("? fv ").append(playerName).append(" ").append(args); // コンソールから打った場合
 	    }
 	    

@@ -17,8 +17,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Main.MODID)
-public class ServerModEvent 
-{
+public class ServerModEvent {
+
 	private static MinecraftServer server;
 	private static LuckPerms luckperm;
 	private static final Logger logger = Main.logger;
@@ -28,16 +28,12 @@ public class ServerModEvent
 	private static AutoShutdown autoshutdown;
 	
 	@SubscribeEvent
-    public static void onServerStarting(ServerStartingEvent e)
-	{
+    public static void onServerStarting(ServerStartingEvent e) {
 		server = e.getServer();
 		
-		try 
-        {
+		try {
             luckperm = LuckPermsProvider.get();
-        } 
-        catch (IllegalStateException e1) 
-        {
+        } catch (IllegalStateException e1) {
             logger.error("LuckPermsが見つかりませんでした。");
             return;
         }
@@ -58,8 +54,7 @@ public class ServerModEvent
     }
 	
 	@SubscribeEvent
-	public static void onServerStopping(ServerStoppingEvent e)
-	{
+	public static void onServerStopping(ServerStoppingEvent e) {
 		status.doServerOffline();
 		
 		rcon.stopMCVC();
@@ -68,8 +63,7 @@ public class ServerModEvent
 	}
 	
     @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent e) 
-    {
+    public static void onRegisterCommands(RegisterCommandsEvent e) {
     	CommandDispatcher<CommandSourceStack> dispatcher = e.getDispatcher();
     	//CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<>();
         new FMCCommand(logger).registerCommand(dispatcher);

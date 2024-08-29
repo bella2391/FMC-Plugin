@@ -12,30 +12,26 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 
-public class ReloadConfig
-{
+public class ReloadConfig {
+
 	private final Config config;
 	private final Logger logger;
 	
 	@Inject
-	public ReloadConfig(Config config, Logger logger)
-	{
+	public ReloadConfig(Config config, Logger logger) {
 		this.config = config;
 		this.logger = logger;
 	}
 	
-	public int execute(CommandContext<CommandSourceStack> context)
-	{
+	public int execute(CommandContext<CommandSourceStack> context) {
 		CommandSourceStack source = context.getSource();
-		try
-        {
+		try {
             config.loadConfig(); // 一度だけロードする
             source.sendSuccess(() -> Component.literal("コンフィグをリロードしました。").withStyle(style -> style.withColor(ChatFormatting.GREEN)), false);
-        }
-        catch (IOException e1)
-        {
+        } catch (IOException e1) {
             logger.error("Error loading config", e1);
         }
+		
 		return 0;
 	}
 }
