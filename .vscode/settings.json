@@ -1,3 +1,11 @@
 {
     "jdk.jdkhome": "C:\\Program Files\\Java\\jdk-17",
+    "java.jdt.ls.java.home": "/usr/lib/jvm/jdk-17.0.12-oracle-x64",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "/usr/lib/jvm/jdk-17.0.12-oracle-x64"
+        }
+    ],
+    "java.compile.nullAnalysis.mode": "automatic",
 }
