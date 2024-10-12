@@ -55,7 +55,10 @@ dependencies {
     implementation 'org.json:json:20180813'
     // LuckPerm
     implementation "net.luckperms:api:5.4"
-    
+    // SLF4J dependencies
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
+
     // Including by Loom Plugin
     include 'com.google.inject:guice:5.1.0'
     include 'javax.inject:javax.inject:1'
@@ -72,6 +75,8 @@ dependencies {
     include 'org.yaml:snakeyaml:2.0'
     include 'mysql:mysql-connector-java:8.0.30'
     include 'org.json:json:20180813'
+    include 'org.slf4j:slf4j-api:1.7.32'
+    include 'org.slf4j:slf4j-simple:1.7.32'
 }
 
 java {

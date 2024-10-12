@@ -38,7 +38,7 @@ public class ServerStatus {
 				// サーバーをオンラインに
 				logger.info(serverName+"サーバーが起動しました。");
 				
-				String sql = "UPDATE mine_status SET online=? WHERE name=?;";
+				String sql = "UPDATE status SET online=? WHERE name=?;";
 				ps = conn.prepareStatement(sql);
 				ps.setBoolean(1,true);
 				ps.setString(2, serverName);
@@ -54,7 +54,7 @@ public class ServerStatus {
                 logger.error(element.toString());
             }
 		} finally {
-        	db.close_resorce(null, conn, ps);
+        	db.close_resource(null, conn, ps);
         }
 	}
 	
@@ -63,7 +63,7 @@ public class ServerStatus {
     		conn = db.getConnection();
 			// サーバーをオフラインに
 			if (Objects.nonNull(conn)) {
-				String sql = "UPDATE mine_status SET online=? WHERE name=?;";
+				String sql = "UPDATE status SET online=? WHERE name=?;";
 				ps = conn.prepareStatement(sql);
 				ps.setBoolean(1,false);
 				ps.setString(2, serverName);
@@ -75,7 +75,7 @@ public class ServerStatus {
                 logger.error(element.toString());
             }
 		} finally {
-        	db.close_resorce(null, conn, ps);
+        	db.close_resource(null, conn, ps);
         }
 	}
 }

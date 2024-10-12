@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import fabric.Module;
 import fabric_command.FMCCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -64,7 +63,7 @@ public class Main implements ModInitializer {
                 return;
             }
             
-            injector = Guice.createInjector(new Module(fabric, logger, server, luckperm, config));
+            injector = Guice.createInjector(new fabric.Module(fabric, logger, server, luckperm, config));
             
             System.out.println("Hello, Fabric world!");
             
