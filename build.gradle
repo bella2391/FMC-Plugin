@@ -84,6 +84,9 @@ dependencies {
     implementation 'org.json:json:20180813'
     // LuckPerm
     implementation "net.luckperms:api:5.4"
+    // SLF4J dependencies
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
 }
 
 shadowJar {
@@ -104,6 +107,8 @@ shadowJar {
         include(dependency('mysql:mysql-connector-java'))
         include(dependency('org.json:json'))
         include(dependency('org.yaml:snakeyaml'))
+        //include(dependency('org.slf4j:slf4j-api'))
+        //include(dependency('org.slf4j:slf4j-simple'))
     }
 }
 
